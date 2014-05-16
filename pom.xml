@@ -11,6 +11,7 @@
 	<modules>
 		<module>express-match-service</module>
 		<module>express-match-web</module>
+		<module>express-match-batch</module>
 	</modules>
 
 	<properties>
