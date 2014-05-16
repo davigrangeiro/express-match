@@ -12,12 +12,19 @@
 		<artifactId>express-match</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>br.usp.ime.escience</groupId>
 			<artifactId>express-match-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
+		<dependency>  
+		    <groupId>org.primefaces.themes</groupId>  
+		    <artifactId>all-themes</artifactId>  
+		    <version>1.0.10</version>  
+		</dependency> 
+		
 	</dependencies>
 </project>
