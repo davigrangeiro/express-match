@@ -1,0 +1,25 @@
+
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+        version="2.0">
+    
+    
+    <persistence-unit name="expressMatch">
+    
+       	<class>br.usp.ime.escience.expressmatch.model.Expression</class>
+		<class>br.usp.ime.escience.expressmatch.model.ExpressionType</class>
+		<class>br.usp.ime.escience.expressmatch.model.Institution</class>
+		<class>br.usp.ime.escience.expressmatch.model.Point</class>
+		<class>br.usp.ime.escience.expressmatch.model.ShapeDescriptor</class>
+		<class>br.usp.ime.escience.expressmatch.model.ShapeDescriptorType</class>
+		<class>br.usp.ime.escience.expressmatch.model.Stroke</class>
+		<class>br.usp.ime.escience.expressmatch.model.Symbol</class>
+		<class>br.usp.ime.escience.expressmatch.model.User</class>
+		<class>br.usp.ime.escience.expressmatch.model.UserInfo</class>
+		<class>br.usp.ime.escience.expressmatch.model.UserParameter</class>
+		<class>br.usp.ime.escience.expressmatch.model.Authorities</class>
+    
+    </persistence-unit>
+    
+</persistence>
