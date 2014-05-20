@@ -16,8 +16,14 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jdk.version>1.7</jdk.version>
+		
 		<spring.version>3.2.8.RELEASE</spring.version>
+		<spring.data.version>1.5.2.RELEASE</spring.data.version>
 		<spring.security.version>3.1.0.RELEASE</spring.security.version>
+		<spring.batch.version>2.2.6.RELEASE</spring.batch.version>
+		
+		<mysql.version>5.1.18</mysql.version>
 		<sfl4j.version>1.5.8</sfl4j.version>
 	</properties>
 
@@ -71,7 +77,7 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
-			<version>1.5.2.RELEASE</version>
+			<version>${spring.data.version}</version>
 		</dependency>
 
 		<!-- Spring Security -->
@@ -124,7 +130,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.18</version>
+			<version>${mysql.version}</version>
 		</dependency>
 
 		<!-- Bone cp -->
@@ -247,8 +253,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
 				</configuration>
 			</plugin>
 		</plugins>
