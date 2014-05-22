@@ -14,9 +14,16 @@
 	</parent>
 
 	<dependencies>
+	
 		<dependency>
 			<groupId>br.usp.ime.escience</groupId>
 			<artifactId>express-match-service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>br.usp.ime.escience</groupId>
+			<artifactId>express-match-batch</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

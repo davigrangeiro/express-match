@@ -12,9 +12,9 @@
 	
 	
 	<!-- Job Repository -->		
-	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
-		<property name="dataSource" ref="expressMatchDataSource" />
+	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
 		<property name="transactionManager" ref="transactionManager" />
+		<property name="isolationLevelForCreate" value="ISOLATION_DEFAULT"/>
 	</bean>
 
 	<!-- Job Louncher -->
@@ -68,11 +68,11 @@
 	</bean>
 	
 	<!-- Task Scheduler Runner -->
-	<bean id="taskSchedulerRunner" class="" />
+	<bean id="taskSchedulerRunner" class="br.usp.ime.escience.expressmatch.batch.TaskSchedulerRunner" />
  
 	<!-- Run every 4 days -->
 	<task:scheduled-tasks>
-		<task:scheduled ref="taskSchedulerRunner" method="run" fixed-delay="345600000" />
+		<task:scheduled ref="taskSchedulerRunner" method="run" fixed-delay="5000" />
 	</task:scheduled-tasks>
 		
 </beans>
