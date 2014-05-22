@@ -69,7 +69,9 @@
 	</bean>
 	
 	<!-- Task Scheduler Runner -->
-	<bean id="taskSchedulerRunner" class="br.usp.ime.escience.expressmatch.batch.TaskSchedulerRunner" />
+	<bean id="taskSchedulerRunner" class="br.usp.ime.escience.expressmatch.batch.TaskSchedulerRunner">
+		<property name="job" ref="expressionsEvaluatingProcessor" />
+	</bean>
  
 	<!-- Run every 4 days -->
 	<task:scheduled-tasks>
