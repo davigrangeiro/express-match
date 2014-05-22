@@ -13,9 +13,10 @@
 	
 	<!-- Job Repository -->		
 	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-		<property name="transactionManager" ref="transactionManager" />
-		<property name="isolationLevelForCreate" value="ISOLATION_DEFAULT"/>
+		<property name="transactionManager" ref="batchTransactionManager" />
 	</bean>
+	
+	  <bean id="batchTransactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
 
 	<!-- Job Louncher -->
 	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
