@@ -97,7 +97,7 @@ public class ShapeDescriptor implements java.io.Serializable {
 		this.expression = expression;
 	}
 
-	@Column(name = "descriptor_values", nullable = false, length = 20000)
+	@Column(name = "descriptor_values", nullable = false)
 	public String getValues() {
 		return this.values;
 	}

@@ -2,14 +2,14 @@ package br.usp.ime.escience.expressmatch.model;
 
 // Generated Apr 19, 2014 4:54:13 PM by Hibernate Tools 4.0.0
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -65,7 +65,7 @@ public class ShapeDescriptorType implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "purpose", length = 512)
+	@Column(name = "purpose")
 	public String getPurpose() {
 		return this.purpose;
 	}

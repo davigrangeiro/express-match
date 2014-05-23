@@ -16,7 +16,7 @@
 		<property name="transactionManager" ref="batchTransactionManager" />
 	</bean>
 	
-	  <bean id="batchTransactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+	<bean id="batchTransactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
 
 	<!-- Job Louncher -->
 	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
@@ -68,6 +68,7 @@
 	<bean id="expressionsNotificationSender" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.notification.NotificationSender">
 	</bean>
 	
+	
 	<!-- Task Scheduler Runner -->
 	<bean id="taskSchedulerRunner" class="br.usp.ime.escience.expressmatch.batch.TaskSchedulerRunner">
 		<property name="job" ref="expressionsEvaluatingProcessor" />
@@ -75,7 +76,7 @@
  
 	<!-- Run every 4 days -->
 	<task:scheduled-tasks>
-		<task:scheduled ref="taskSchedulerRunner" method="run" fixed-delay="5000" />
+		<task:scheduled ref="taskSchedulerRunner" method="run" fixed-delay="50000" />
 	</task:scheduled-tasks>
 		
 </beans>

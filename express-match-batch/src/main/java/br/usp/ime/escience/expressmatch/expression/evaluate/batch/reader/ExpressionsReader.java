@@ -4,9 +4,11 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.stereotype.Component;
 
 import br.usp.ime.escience.expressmatch.model.Expression;
 
+@Component
 public class ExpressionsReader implements ItemReader<Expression>{
 
 	@Override

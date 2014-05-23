@@ -75,7 +75,7 @@ public class User implements java.io.Serializable {
 		this.nick = nick;
 	}
 
-	@Column(name = "pass", nullable = false, length = 500)
+	@Column(name = "pass", nullable = false)
 	public String getPass() {
 		return this.pass;
 	}

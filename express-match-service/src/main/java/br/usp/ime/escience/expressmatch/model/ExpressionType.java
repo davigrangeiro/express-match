@@ -67,7 +67,7 @@ public class ExpressionType implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "description", length = 512)
+	@Column(name = "description")
 	public String getDescription() {
 		return this.description;
 	}
@@ -76,7 +76,7 @@ public class ExpressionType implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@Column(name = "label", length = 1024)
+	@Column(name = "label")
 	public String getLabel() {
 		return this.label;
 	}

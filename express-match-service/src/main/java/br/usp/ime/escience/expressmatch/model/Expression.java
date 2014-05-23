@@ -32,7 +32,8 @@ public class Expression implements java.io.Serializable {
 	private String label;
 	private Set<ShapeDescriptor> shapeDescriptors = new HashSet<>(0);
 	private List<Symbol> symbols = new ArrayList<>(0);
-
+	private Integer expressionStatus;
+	
 	private Integer expressionId;
 	
 	private Point ltPoint;
@@ -104,7 +105,7 @@ public class Expression implements java.io.Serializable {
 		this.expressionType = expressionType;
 	}
 
-	@Column(name = "label", length = 2048)
+	@Column(name = "label")
 	public String getLabel() {
 		return this.label;
 	}
@@ -130,6 +131,15 @@ public class Expression implements java.io.Serializable {
 
 	public void setShapeDescriptors(Set<ShapeDescriptor> shapeDescriptors) {
 		this.shapeDescriptors = shapeDescriptors;
+	}
+
+	@Column(name = "id", nullable = false)
+	public Integer getExpressionStatus() {
+		return expressionStatus;
+	}
+
+	public void setExpressionStatus(Integer expressionStatus) {
+		this.expressionStatus = expressionStatus;
 	}
 
 	/* (non-Javadoc)
