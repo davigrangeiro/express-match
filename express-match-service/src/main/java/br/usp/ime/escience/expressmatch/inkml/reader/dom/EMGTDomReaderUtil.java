@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,7 +23,6 @@ import br.usp.ime.escience.expressmatch.model.Symbol;
 import br.usp.ime.escience.expressmatch.model.UserInfo;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EMDTDomReaderUtil.
  */

@@ -75,11 +75,14 @@ public class ExpressionsCatalogController implements Serializable{
 	
 		this.expression = this.expressionServiceProvider.loadExpressionForExpressionType(type);
 		
-		Stroke[] modelStrokes = getStrokesForExpression(expression);
-		
-		setJsonString(this.getStrokeParser().toJSON(modelStrokes));
-		
-		assembleExpressionDataTree(this.expression);
+		if (null != this.expression){
+			
+			Stroke[] modelStrokes = getStrokesForExpression(expression);
+			
+			setJsonString(this.getStrokeParser().toJSON(modelStrokes));
+			
+			assembleExpressionDataTree(this.expression);
+		}
 	}
 
 	private void assembleExpressionDataTree(Expression e) {

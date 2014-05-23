@@ -9,9 +9,9 @@ public class StringUtils {
 	public static String getArrayContents(List<? extends Expression> contents){
 		StringBuilder res = new StringBuilder("{");
 		for (int i = 0; i < contents.size()-1; i++) {
-			res.append(contents.get(i)).append(",");
+			res.append(contents.get(i).getId()).append(",");
 		}
-		res.append(contents.get(contents.size()-1)).append("}");
+		res.append(contents.get(contents.size()-1).getId()).append("}");
 		
 		return res.toString();
 	}

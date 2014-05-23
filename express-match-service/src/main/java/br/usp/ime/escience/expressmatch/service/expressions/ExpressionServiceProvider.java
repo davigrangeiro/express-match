@@ -19,6 +19,7 @@ import br.usp.ime.escience.expressmatch.model.User;
 import br.usp.ime.escience.expressmatch.model.repository.ExpressionRepository;
 import br.usp.ime.escience.expressmatch.model.repository.ExpressionTypeRepository;
 import br.usp.ime.escience.expressmatch.model.repository.UserInfoRepository;
+import br.usp.ime.escience.expressmatch.model.status.ExpressionStatusEnum;
 
 @Service
 public class ExpressionServiceProvider {
@@ -78,12 +79,16 @@ public class ExpressionServiceProvider {
 		fullLoadExpression(res);
 		return res;
 	}
-
+	
 	private void fullLoadExpression(Expression res) {
-		for (Symbol s : res.getSymbols()) {
-			for (Stroke str : s.getStrokes()) {
-				List<Point> points = new ArrayList<Point>(str.getPoints());
-				str.setPoints(points);
+		if(null != res && null != res.getSymbols()){
+			for (Symbol s : res.getSymbols()) {
+				if(null != s.getStrokes()){
+					for (Stroke str : s.getStrokes()) {
+						List<Point> points = new ArrayList<Point>(str.getPoints());
+						str.setPoints(points);
+					}
+				}
 			}
 		}
 	}
@@ -97,11 +102,24 @@ public class ExpressionServiceProvider {
 		
 		return res;
 	}
+	
+	public List<Expression> findTranscribedExpressions(){
+		return this.expressionRepository.findByExpressionStatus(ExpressionStatusEnum.EXPRESSION_TRANSCRIBED.getValue());
+	}
+	
+	public List<Expression> findEvaluatedExpressions(){
+		return this.expressionRepository.findByExpressionStatus(ExpressionStatusEnum.EXPRESSION_EVALUATED.getValue());
+	}
+	
+	public List<Expression> findValidatedExpressions(){
+		return this.expressionRepository.findByExpressionStatus(ExpressionStatusEnum.EXPRESSION_VALIDATED.getValue());
+	}
 
 	public void saveTranscription(Stroke[] strokes, ExpressionType expressionType, User currentUser) throws ExpressMatchExpression {
 		try {
 			
 			Expression e = new Expression();
+			e.setExpressionStatus(ExpressionStatusEnum.EXPRESSION_TRANSCRIBED.getValue());
 			e.setExpressionType(this.expressionTypeRepository.findOne(expressionType.getId()));
 			e.setLabel(NOT_EVALUATED_YET);
 			e.setUserInfo(this.userInfoRepository.getUserInfoByUserNick(currentUser.getNick()));

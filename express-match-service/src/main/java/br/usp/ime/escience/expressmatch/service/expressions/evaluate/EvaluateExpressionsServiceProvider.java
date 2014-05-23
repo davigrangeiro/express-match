@@ -8,8 +8,7 @@ import br.usp.ime.escience.expressmatch.model.Expression;
 public class EvaluateExpressionsServiceProvider {
 
 	public Expression evaluateExpression(Expression expressionToEvaluate){
-		//TODO: Implement
-		return null;
+		return expressionToEvaluate;
 	}
 	
 }

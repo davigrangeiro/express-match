@@ -133,7 +133,7 @@ public class Expression implements java.io.Serializable {
 		this.shapeDescriptors = shapeDescriptors;
 	}
 
-	@Column(name = "id", nullable = false)
+	@Column(name = "expression_status", nullable = false)
 	public Integer getExpressionStatus() {
 		return expressionStatus;
 	}

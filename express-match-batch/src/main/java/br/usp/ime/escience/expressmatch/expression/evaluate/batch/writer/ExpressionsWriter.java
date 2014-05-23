@@ -33,6 +33,9 @@ public class ExpressionsWriter implements ItemWriter<Expression>{
 		} catch (ExpressMatchExpression e){
 			//This error is not blocking, if there is an exception while trying to save a expression, the process carries on.
 			LOGGER.warn("An error occur while attempt to save expressions", e);
+		} catch (Exception e) {
+			LOGGER.error("An error occur while attempt to save expressions", e);
+			throw e;
 		}
 		
 		LOGGER.info(MessageFormat.format("Finishing writing expressions with ids: ({0})", ids));
