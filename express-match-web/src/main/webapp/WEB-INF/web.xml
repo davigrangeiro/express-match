@@ -32,11 +32,14 @@
 		<param-value>client</param-value>
 	</context-param>
 	
+	<!-- Primefaces theme
 	<context-param>  
         <param-name>primefaces.THEME</param-name>  
         <param-value>smoothness</param-value>  
     </context-param>  
-	
+	 -->
+	 
+	 
 	<!-- JSTL Settings -->
 	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
