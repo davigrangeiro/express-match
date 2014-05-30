@@ -45,7 +45,7 @@ public class Graph {
     }
 
     public Vertex[] getIndexedVertexes() {
-        Iterator it = this.vertices.iterator();
+        Iterator<Vertex> it = this.vertices.iterator();
         Vertex[] refv = new Vertex[this.getVertexSize()];
         while (it.hasNext()) {
             Vertex v = (Vertex) it.next();
@@ -72,7 +72,7 @@ public class Graph {
 
     public double getWidth() {
         double minX = 0, maxX = 0;
-        Iterator it = this.vertices.iterator();
+        Iterator<Vertex> it = this.vertices.iterator();
         if (it.hasNext()) {
             Vertex v = (Vertex) it.next();
             minX = maxX = v.getX();
@@ -91,7 +91,7 @@ public class Graph {
 
     public double getHeight() {
         double minY = 0, maxY = 0;
-        Iterator it = this.vertices.iterator();
+        Iterator<Vertex> it = this.vertices.iterator();
         if (it.hasNext()) {
             Vertex v = (Vertex) it.next();
             minY = maxY = v.getY();
@@ -110,7 +110,7 @@ public class Graph {
 
     public Point2D getMinPositions() {
         double minY = 0, minX = 0;
-        Iterator it = this.vertices.iterator();
+        Iterator<Vertex> it = this.vertices.iterator();
         if (it.hasNext()) {
             Vertex v = (Vertex) it.next();
             minY = v.getY();
@@ -135,7 +135,8 @@ public class Graph {
         return new Point2D.Double(min.getX() + (width / 2), min.getY() + (height / 2));
     }
 
-    public LinkedList<Vertex>[] getNeighboursList() {
+    @SuppressWarnings("unchecked")
+	public LinkedList<Vertex>[] getNeighboursList() {
         LinkedList<Vertex>[] neighbours = new LinkedList[this.getVertexSize()];
         for (int i = 0; i < neighbours.length; i++) {
             neighbours[i] = new LinkedList<Vertex>();
@@ -153,7 +154,7 @@ public class Graph {
         return neighbours;
     }
 
-    public LinkedList getEdges() {
+    public LinkedList<Edge> getEdges() {
         return this.edges;
     }
 

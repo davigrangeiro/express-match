@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TaskSchedulerRunner {
+public class TaskRunner {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(TaskSchedulerRunner.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TaskRunner.class);
 	
 	@Autowired
 	private JobLauncher jobLauncher;

@@ -89,9 +89,10 @@ public class ShapeContext {
             }
 
         //cria lista de pontos dentro do disco, para cada ponto
-        LinkedList[] ldisc = new LinkedList[totPoints];
+        @SuppressWarnings("unchecked")
+		LinkedList<Integer>[] ldisc = new LinkedList[totPoints];
         for (int i = 0; i < totPoints; i++) {
-            ldisc[i] = new LinkedList();
+            ldisc[i] = new LinkedList<Integer>();
             for (int j = 0; j < totPoints; j++) {
                 if (i != j && dist[i][j] <= raioSC && dist[i][j] > 0)
                     ldisc[i].addLast(j);
@@ -118,9 +119,9 @@ se (dy < 0) entao theta:= 2PI - theta
          */
         for (int i = 0; i < totPoints; i++) {
             int total = ldisc[i].size();
-            Iterator it = ldisc[i].iterator();
+            Iterator<Integer> it = ldisc[i].iterator();
             while(it.hasNext()) {
-                int j = ((Integer)it.next()).intValue();
+                int j = it.next().intValue();
                 //cos theta
                 float dx = (float)(vertexList[j].getX() - vertexList[i].getX());
                 float dy = (float)(vertexList[j].getY() - vertexList[i].getY());

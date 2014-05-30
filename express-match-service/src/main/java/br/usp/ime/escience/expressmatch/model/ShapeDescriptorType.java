@@ -27,7 +27,6 @@ public class ShapeDescriptorType implements java.io.Serializable {
 	private String name;
 	private String purpose;
 	private Date insertDate;
-	private ShapeDescriptor shapeDescriptor;
 
 	public ShapeDescriptorType() {
 	}
@@ -37,12 +36,10 @@ public class ShapeDescriptorType implements java.io.Serializable {
 		this.insertDate = insertDate;
 	}
 
-	public ShapeDescriptorType(String name, String purpose, Date insertDate,
-			ShapeDescriptor shapeDescriptor) {
+	public ShapeDescriptorType(String name, String purpose, Date insertDate) {
 		this.name = name;
 		this.purpose = purpose;
 		this.insertDate = insertDate;
-		this.shapeDescriptor = shapeDescriptor;
 	}
 
 	@Id

@@ -7,7 +7,6 @@ package br.usp.ime.escience.expressmatch.service.expressions.preprocessing;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import br.usp.ime.escience.expressmatch.model.Point;
 import br.usp.ime.escience.expressmatch.model.Stroke;

@@ -21,6 +21,7 @@ import br.usp.ime.escience.expressmatch.model.Point;
 import br.usp.ime.escience.expressmatch.model.Stroke;
 import br.usp.ime.escience.expressmatch.model.Symbol;
 import br.usp.ime.escience.expressmatch.model.UserInfo;
+import static br.usp.ime.escience.expressmatch.model.status.ExpressionStatusEnum.EXPRESSION_VALIDATED;
 
 
 /**
@@ -90,6 +91,7 @@ public class EMGTDomReaderUtil {
 	 */
 	public static Expression read(File in) throws ParserConfigurationException, SAXException, IOException{
 		Expression ret = new Expression();
+		ret.setExpressionStatus(EXPRESSION_VALIDATED.getValue());
 		ExpressionType eType = new ExpressionType();
 		UserInfo user = new UserInfo();
 		
@@ -107,7 +109,7 @@ public class EMGTDomReaderUtil {
 				if(EMGTDomReaderUtil.EXPRESSIION.equalsIgnoreCase(type) &&
 						  e.getFirstChild() != null && e.getFirstChild().getNodeValue() != null){
 					eType.setId(Integer.valueOf(e.getFirstChild().getNodeValue()));
-					ret.setExpressionId(Integer.valueOf(e.getFirstChild().getNodeValue()));
+					ret.setExpressionTransientId(Integer.valueOf(e.getFirstChild().getNodeValue()));
 				}else if(EMGTDomReaderUtil.WRITER.equalsIgnoreCase(type) &&
 						  e.getFirstChild() != null && e.getFirstChild().getNodeValue() != null){
 					user.setName(e.getFirstChild().getNodeValue());

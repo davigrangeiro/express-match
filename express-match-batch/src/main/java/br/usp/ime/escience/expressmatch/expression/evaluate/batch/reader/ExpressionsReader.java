@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.usp.ime.escience.expressmatch.model.Expression;
+import br.usp.ime.escience.expressmatch.model.status.ExpressionStatusEnum;
 import br.usp.ime.escience.expressmatch.service.expressions.ExpressionServiceProvider;
 
 @Component
@@ -27,6 +28,8 @@ public class ExpressionsReader implements ItemReader<Expression>{
 	private List<Expression> expressionsToProcess; 
 	
 	private Iterator<Expression> expressionsIterator;
+	
+	private ExpressionStatusEnum expressionStatus;
 	
 	@Override
 	public Expression read() throws Exception, UnexpectedInputException,
@@ -52,15 +55,24 @@ public class ExpressionsReader implements ItemReader<Expression>{
 	private void loadExpressionsData() {
 		if(null == expressionsToProcess) {
 			
-			this.expressionsToProcess = expressionServiceProvider.findTranscribedExpressions();
+			loadExpressionsByStatus();
+			
 			this.expressionsIterator = this.expressionsToProcess.iterator();
 			
-			LOGGER.info(MessageFormat.format("Fetched {0} expressions", this.expressionsToProcess.size()));
+			LOGGER.info(MessageFormat.format("Fetched {0} expressions with status ({1})", this.expressionsToProcess.size(), this.expressionStatus.toString()));
+		}
+	}
+
+	private void loadExpressionsByStatus() {
+		if (ExpressionStatusEnum.EXPRESSION_TRANSCRIBED.equals(expressionStatus)) {
+			this.expressionsToProcess = expressionServiceProvider.findTranscribedExpressions();
+		} else if (ExpressionStatusEnum.EXPRESSION_VALIDATED.equals(expressionStatus)){
+			this.expressionsToProcess = expressionServiceProvider.findValidatedExpressions();
 		}
 	}
 	
 	private boolean thereIsAnyExpressionToProcess() {
-		return null != this.expressionsIterator && this.expressionsIterator.hasNext();
+		return (null != this.expressionsIterator && this.expressionsIterator.hasNext());
 	}
 	
 	private Expression getNextExpressionToProcess() {
@@ -68,6 +80,14 @@ public class ExpressionsReader implements ItemReader<Expression>{
 
 		LOGGER.info(MessageFormat.format("Returning expression with id {0}", res.getId()));
 		return res;
+	}
+
+	public ExpressionStatusEnum getExpressionStatus() {
+		return expressionStatus;
+	}
+
+	public void setExpressionStatus(ExpressionStatusEnum expressionStatus) {
+		this.expressionStatus = expressionStatus;
 	}
 
 }

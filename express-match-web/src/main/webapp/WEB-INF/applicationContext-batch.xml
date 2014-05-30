@@ -13,17 +13,17 @@
 	
 	<!-- Job Repository -->		
 	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-		<property name="transactionManager" ref="batchTransactionManager" />
+		<property name="transactionManager" ref="jobRepositoryTransactionManager" />
 	</bean>
 	
-	<bean id="batchTransactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+	<bean id="jobRepositoryTransactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
 
 	<!-- Job Louncher -->
 	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
 		<property name="jobRepository" ref="jobRepository" />
 	</bean>
 
-
+	
 	<!-- JOB 1 : Evaluate all expressions with status not evaluated yet -->
 	<batch:job id="expressionsEvaluatingProcessor">
 		
@@ -54,6 +54,7 @@
 	<!-- JOB: Step 1 (expressionsEvaluating) Beans -->
 	
 	<bean id="expressionsReader" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.reader.ExpressionsReader">
+		 <property name="expressionStatus" value="EXPRESSION_TRANSCRIBED" />
 	</bean>
 	
 	<bean id="expressionsProcessor" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.processor.ExpressionsProcessor">
@@ -68,15 +69,65 @@
 	<bean id="expressionsNotificationSender" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.notification.NotificationSender">
 	</bean>
 	
+	<!-- JOB 1 - End of definitions -->
 	
-	<!-- Task Scheduler Runner -->
-	<bean id="taskSchedulerRunner" class="br.usp.ime.escience.expressmatch.batch.TaskSchedulerRunner">
+	
+	<!-- JOB 2 : Evaluate all expressions with status validated for evaluation purpose -->
+	<batch:job id="expressionsEvaluatingResultsProcessor">
+		
+		<!-- Step 1 : Evaluating and save all expressions -->
+		<batch:step id="expressionsEvaluatingResults" next="expressionsNotificationResults">
+			
+			<batch:tasklet>
+			
+				<batch:chunk reader="expressionsResultReader" 
+							 processor="expressionsResultProcessor"
+					   		 writer="expressionsResultWriter" 
+					   		 commit-interval="1" />
+					   		 
+			</batch:tasklet>
+			
+		</batch:step>
+		
+		<!-- Step 2 : Send a notification for each evaluated expression -->
+		<batch:step id="expressionsNotificationResults">
+			
+			<batch:tasklet ref="expressionsNotificationSender" />
+			
+		</batch:step>
+		
+	</batch:job>
+	
+		
+	<!-- JOB: Step 1 (expressionsResultingEvaluating) Beans -->
+	
+	<bean id="expressionsResultReader" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.reader.ExpressionsReader">
+		<property name="expressionStatus" value="EXPRESSION_VALIDATED" />
+	</bean>
+	
+	<bean id="expressionsResultProcessor" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.processor.ExpressionsProcessor">
+	</bean>
+	
+	<bean id="expressionsResultWriter" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.writer.ExpressionsWriter">
+	</bean>
+	
+	
+	<!-- JOB 2 - End of definitions -->
+	
+	
+	<!-- Task Scheduler Runner for expressionsEvaluatingProcessor-->
+	<bean id="expressionsEvaluatingTaskRunner" class="br.usp.ime.escience.expressmatch.batch.TaskRunner">
 		<property name="job" ref="expressionsEvaluatingProcessor" />
 	</bean>
+	
+	<!-- Task Scheduler Runner for expressionsEvaluatingResultsProcessor-->
+	<bean id="expressionsEvaluatingResultsTaskRunner" class="br.usp.ime.escience.expressmatch.batch.TaskRunner">
+		<property name="job" ref="expressionsEvaluatingResultsProcessor" />
+	</bean>
  
-	<!-- Run every 4 days -->
+	<!-- Run every 7 days -->
 	<task:scheduled-tasks>
-		<task:scheduled ref="taskSchedulerRunner" method="run" fixed-delay="50000" />
+		<task:scheduled ref="expressionsEvaluatingTaskRunner" method="run" fixed-delay="50000" />
 	</task:scheduled-tasks>
 		
 </beans>

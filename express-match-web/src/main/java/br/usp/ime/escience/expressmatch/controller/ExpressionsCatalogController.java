@@ -18,12 +18,10 @@ import org.springframework.stereotype.Component;
 
 import br.usp.ime.escience.expressmatch.model.Expression;
 import br.usp.ime.escience.expressmatch.model.ExpressionType;
-import br.usp.ime.escience.expressmatch.model.Point;
 import br.usp.ime.escience.expressmatch.model.Stroke;
 import br.usp.ime.escience.expressmatch.model.Symbol;
-import br.usp.ime.escience.expressmatch.model.User;
 import br.usp.ime.escience.expressmatch.service.expressions.ExpressionServiceProvider;
-import br.usp.ime.escience.expressmatch.service.gson.generic.StrokeJSONParser;
+import br.usp.ime.escience.expressmatch.service.json.StrokeJSONParser;
 
 @Component
 @ManagedBean
@@ -32,7 +30,7 @@ public class ExpressionsCatalogController implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger logger = LoggerFactory.getLogger(ExpressionsCatalogController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExpressionsCatalogController.class);
 
 	@Autowired
 	private StrokeJSONParser strokeParser; 
@@ -66,16 +64,15 @@ public class ExpressionsCatalogController implements Serializable{
 		types = this.expressionServiceProvider.loadExpressionTypes();
 		
 		eTypeIndex = 0;
-		if(types != null && types.size() > 0)
-			loadExpressionType(eTypeIndex);
+		loadExpressionType(eTypeIndex);
 	}
 
 	private void loadExpressionType(int index) {
-		ExpressionType type = this.types.get(index);
-	
-		this.expression = this.expressionServiceProvider.loadExpressionForExpressionType(type);
+		if(types != null && index < types.size()){
 		
-		if (null != this.expression){
+			ExpressionType type = this.types.get(index);
+	
+			this.expression = this.expressionServiceProvider.loadExpressionForExpressionType(type);
 			
 			Stroke[] modelStrokes = getStrokesForExpression(expression);
 			
