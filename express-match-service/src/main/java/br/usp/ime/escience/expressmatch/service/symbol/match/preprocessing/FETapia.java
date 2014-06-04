@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package br.usp.ime.escience.expressmatch.service.expressions.preprocessing;
+package br.usp.ime.escience.expressmatch.service.symbol.match.preprocessing;
 
 import java.util.ArrayList;
 import java.util.Arrays;

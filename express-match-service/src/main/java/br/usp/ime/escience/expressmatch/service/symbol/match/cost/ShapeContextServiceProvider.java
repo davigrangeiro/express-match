@@ -1,4 +1,4 @@
-package br.usp.ime.escience.expressmatch.service.expressions.cost;
+package br.usp.ime.escience.expressmatch.service.symbol.match.cost;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import br.usp.ime.escience.expressmatch.model.UserParameter;
 import br.usp.ime.escience.expressmatch.model.graph.Graph;
 import br.usp.ime.escience.expressmatch.model.repository.ShapeDescriptorRepository;
 import br.usp.ime.escience.expressmatch.model.repository.ShapeDescriptorTypeRepository;
-import br.usp.ime.escience.expressmatch.service.expressions.preprocessing.PreprocessingAlgorithms;
+import br.usp.ime.escience.expressmatch.service.symbol.match.preprocessing.PreprocessingAlgorithms;
 import br.usp.ime.escience.expressmatch.service.user.UserServiceProvider;
 
 import com.google.gson.Gson;
