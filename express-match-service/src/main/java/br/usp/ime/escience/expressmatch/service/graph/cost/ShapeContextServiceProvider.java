@@ -1,4 +1,4 @@
-package br.usp.ime.escience.expressmatch.service.symbol.match.cost;
+package br.usp.ime.escience.expressmatch.service.graph.cost;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;

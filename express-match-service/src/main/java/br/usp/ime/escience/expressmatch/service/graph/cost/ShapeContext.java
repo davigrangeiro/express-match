@@ -7,7 +7,7 @@ Serge Belongie, Jitendra Malik and Jan Puzicha
 
 */
 
-package br.usp.ime.escience.expressmatch.service.symbol.match.cost;
+package br.usp.ime.escience.expressmatch.service.graph.cost;
 
 
 import java.util.*;

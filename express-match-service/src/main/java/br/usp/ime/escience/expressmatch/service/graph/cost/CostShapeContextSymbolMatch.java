@@ -1,20 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package br.usp.ime.faguilar.cost;
 
-import br.usp.ime.faguilar.graph.Graph;
-import br.usp.ime.faguilar.graph.Vertex;
-import br.usp.ime.faguilar.matching.GraphMatching;
-import br.usp.ime.faguilar.matching.HungarianMatching;
+package br.usp.ime.escience.expressmatch.service.graph.cost;
+
+import br.usp.ime.escience.expressmatch.model.graph.Graph;
+import br.usp.ime.escience.expressmatch.model.graph.Vertex;
+import br.usp.ime.escience.expressmatch.service.symbol.match.GraphMatching;
+import br.usp.ime.escience.expressmatch.service.symbol.match.HungarianMatching;
+
 
 /**
  *
  * @author Willian
  */
-public class CostShapeContextInside extends Cost {
-    GraphMatching gm;
+public class CostShapeContextSymbolMatch extends ShapeContextCost {
+   
+	GraphMatching gm;
 
     public float getCost(Vertex vm, Vertex vi){
         Graph graphModelSC = new Graph();
@@ -33,7 +32,7 @@ public class CostShapeContextInside extends Cost {
             graphInputSC.addVertex(v);
         }      
         this.gm = new HungarianMatching(graphModelSC, graphInputSC);
-        this.gm.setCost(new Cost());
+        this.gm.setCost(new ShapeContextCost());
         int[][] match = this.gm.getMatch();
         
         float totalCost = 0;

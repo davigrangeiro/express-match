@@ -11,75 +11,96 @@ import java.awt.geom.Point2D;
  */
 public class Vertex {
 
-    Point2D p;
-    private int id; //indice no grafo
-    private double[] shapeContextExpression; //cada vertices tem um vetor de 60 medidas (shape context)
-    private double[][] shapeContextSymbol;
+	Point2D p;
+	private int id; // indice no grafo
+	private double[] shapeContextExpression; // cada vertices tem um vetor de 60 medidas (shape context)
+	private double[][] shapeContextSymbol;
 
-    public Vertex(Point2D p) {
-        this.p = p;
-    }
+	private double value;
+	private boolean visited;
+	
+	public Vertex(Point2D p) {
+		this.p = p;
+	}
 
-    public Vertex(int id, double x, double y) {
-        this(new Point2D.Double(x, y));
-        this.id = id;
-    }
+	public Vertex(int id, double x, double y) {
+		this(new Point2D.Double(x, y));
+		this.id = id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public float compareShapeContextExpression(Vertex other) {
+		double[] localHistogram = this.getShapeContextExpression();
+		double[] externalHistogram = other.getShapeContextExpression();
+		return this.calculateShapeContext(localHistogram, externalHistogram);
+	}
 
-    public int getId() {
-        return this.id;
-    }
+	private float calculateShapeContext(double[] localHistogram,
+			double[] externalHistogram) {
+		double sum = 0.0;
+		for (int i = 0; i < localHistogram.length; i++) {
+			double d1 = localHistogram[i] - externalHistogram[i];
+			double d2 = localHistogram[i] + externalHistogram[i];
+			if (d2 > 0) {
+				sum = sum + (d1 * d1) / d2;
+			}
+		}
+		return (float) (sum / 2.0);
+	}
 
-    public double getX() {
-        return this.p.getX();
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public double getY() {
-        return this.p.getY();
-    }
+	public int getId() {
+		return this.id;
+	}
 
-    public void setX(double x) {
-        this.p.setLocation(x, this.p.getY());
-    }
+	public double getX() {
+		return this.p.getX();
+	}
 
-    public void setY(double y) {
-        this.p.setLocation(this.p.getX(), y);
-    }
+	public double getY() {
+		return this.p.getY();
+	}
 
-    public double[] getShapeContextExpression() {
-        return this.shapeContextExpression;
-    }
+	public void setX(double x) {
+		this.p.setLocation(x, this.p.getY());
+	}
 
-    public void setShapeContextExpression(double[] shapeContext) {
-        this.shapeContextExpression = shapeContext;
-    }
+	public void setY(double y) {
+		this.p.setLocation(this.p.getX(), y);
+	}
 
-    public double[][] getShapeContextSymbol() {
-        return shapeContextSymbol;
-    }
+	public double[] getShapeContextExpression() {
+		return this.shapeContextExpression;
+	}
 
-    public void setShapeContextSymbol(double[][] shapeContextSymbol) {
-        this.shapeContextSymbol = shapeContextSymbol;
-    }
+	public void setShapeContextExpression(double[] shapeContext) {
+		this.shapeContextExpression = shapeContext;
+	}
 
-    public float compareShapeContextExpression(Vertex other) {
-        double[] localHistogram = this.getShapeContextExpression();
-        double[] externalHistogram = other.getShapeContextExpression();
-        return this.calculateShapeContext(localHistogram, externalHistogram);
-    }
-    
-    private float calculateShapeContext(double [] localHistogram, double [] externalHistogram){
-        double sum = 0.0;
-        for (int i = 0; i < localHistogram.length; i++) {
-            double d1 = localHistogram[i] - externalHistogram[i];
-            double d2 = localHistogram[i] + externalHistogram[i];
-            if (d2 > 0) {
-                sum = sum + (d1 * d1) / d2;
-            }
-        }
-        return (float) (sum / 2.0);
-    }
+	public double[][] getShapeContextSymbol() {
+		return shapeContextSymbol;
+	}
+
+	public void setShapeContextSymbol(double[][] shapeContextSymbol) {
+		this.shapeContextSymbol = shapeContextSymbol;
+	}
+
+	public boolean isVisited() {
+		return visited;
+	}
+
+	public void setVisited(boolean visited) {
+		this.visited = visited;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+	}
+
 }

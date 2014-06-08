@@ -5,8 +5,10 @@
 package br.usp.ime.escience.expressmatch.model.graph;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -136,10 +138,11 @@ public class Graph {
     }
 
     @SuppressWarnings("unchecked")
-	public LinkedList<Vertex>[] getNeighboursList() {
-        LinkedList<Vertex>[] neighbours = new LinkedList[this.getVertexSize()];
+	public List<Edge>[] getNeighboursList() {
+        List<Edge>[] neighbours = new ArrayList[this.getVertexSize()];
+        
         for (int i = 0; i < neighbours.length; i++) {
-            neighbours[i] = new LinkedList<Vertex>();
+            neighbours[i] = new LinkedList<Edge>();
         }
 
         Iterator<Edge> it = this.edges.iterator();
@@ -148,7 +151,8 @@ public class Graph {
             Vertex from = e.getFrom();
             Vertex to = e.getTo();
             if (from != to) {
-                neighbours[from.getId()].add(e.getTo());
+                neighbours[from.getId()].add(e);
+                neighbours[to.getId()].add(e);
             }
         }
         return neighbours;

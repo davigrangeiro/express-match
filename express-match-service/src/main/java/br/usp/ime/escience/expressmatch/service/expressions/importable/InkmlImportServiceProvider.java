@@ -13,7 +13,7 @@ import br.usp.ime.escience.expressmatch.inkml.reader.EMGTDomReader;
 import br.usp.ime.escience.expressmatch.model.Expression;
 import br.usp.ime.escience.expressmatch.model.ExpressionType;
 import br.usp.ime.escience.expressmatch.service.expressions.ExpressionServiceProvider;
-import br.usp.ime.escience.expressmatch.service.symbol.match.cost.ShapeContextServiceProvider;
+import br.usp.ime.escience.expressmatch.service.graph.cost.ShapeContextServiceProvider;
 import br.usp.ime.escience.expressmatch.service.user.UserServiceProvider;
 
 @Service
