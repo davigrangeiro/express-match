@@ -113,7 +113,7 @@ public class Symbol implements java.io.Serializable {
 		this.representant = representant;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "symbol")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "symbol")
 	public Set<ShapeDescriptor> getShapeDescriptors() {
 		return this.shapeDescriptors;
 	}

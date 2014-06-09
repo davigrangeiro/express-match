@@ -16,6 +16,11 @@ public class Vertex {
 	private double[] shapeContextExpression; // cada vertices tem um vetor de 60 medidas (shape context)
 	private double[][] shapeContextSymbol;
 
+	public Vertex(double[][] shapeContextSymbol) {
+		super();
+		this.shapeContextSymbol = shapeContextSymbol;
+	}
+
 	private double value;
 	private boolean visited;
 	

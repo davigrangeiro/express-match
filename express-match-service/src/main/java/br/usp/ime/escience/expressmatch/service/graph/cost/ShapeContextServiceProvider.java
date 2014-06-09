@@ -110,6 +110,41 @@ public class ShapeContextServiceProvider {
 	}
 	
 	
+	public double[][] getShapeContextDescriptor(Symbol s){
+		double[][] res = null;
+		
+		ShapeDescriptor sd = null; 
+		if (null != s.getShapeDescriptors() && s.getShapeDescriptors().size() > 0) {
+			sd = s.getShapeDescriptors().iterator().next();
+		}
+		 
+		if (null == sd && null != sd.getValues() && !sd.getValues().isEmpty()) {
+	    	Gson parser = new Gson();
+	    	
+	    	res = parser.fromJson(sd.getValues(), double[][].class);
+	    	
+	    } else {
+	    	UserParameter parameters = this.userServiceProvider.getUserParameters();
+	    	res = this.evaluateSymbolShapeContext(s, parameters);
+	    }
+	    
+		return res;
+	}
+	
+	public double[][] getShapeContextDescriptor(List<Stroke>  strokes){
+		double[][] res = null;
+		
+		Symbol s = new Symbol();
+		for (Stroke stroke: strokes) {
+			s.addCheckingBoundingBox(stroke);
+		}
+		
+    	UserParameter parameters = this.userServiceProvider.getUserParameters();
+    	res = this.evaluateSymbolShapeContext(s, parameters);
+	    
+		return res;
+	}	
+	
 	public List<ShapeDescriptor> generateAndSaveSymbolShapeDescriptors(List<Symbol> symbols){
 	    UserParameter parameters = this.userServiceProvider.getUserParameters();
 	    List<ShapeDescriptor> res = new ArrayList<ShapeDescriptor>();
@@ -162,5 +197,6 @@ public class ShapeContextServiceProvider {
 	    res = this.generateAndSaveSymbolShapeDescriptors(symbols);
 		return res;
 	}
+	
 	
 }

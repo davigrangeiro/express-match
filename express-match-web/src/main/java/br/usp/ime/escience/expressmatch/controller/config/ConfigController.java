@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.usp.ime.escience.expressmatch.service.expressions.importable.InkmlImportServiceProvider;
+import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifier;
+import br.usp.ime.escience.expressmatch.service.symbol.classifier.sc.ShapeContexSymbolClassifier;
 
 @Component
 @ManagedBean
@@ -24,9 +26,18 @@ public class ConfigController implements Serializable{
 	@Autowired
 	private InkmlImportServiceProvider importServiceProvider;
 	
+	@Autowired
+	private ShapeContexSymbolClassifier symbolClassifier;
+	
 	public String importDataBase(){
 		logger.debug("Starting dataset import");
 		importServiceProvider.importDataSet();
+		return "";
+	}
+	
+	public String testShapeSymbol(){
+		symbolClassifier.testClassifier();
+		
 		return "";
 	}
 
