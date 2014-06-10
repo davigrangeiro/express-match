@@ -63,6 +63,6 @@ public class ShapeContexSymbolClassifier implements SymbolClassifier {
 		}
 		MeanAndStandardDeviationResponse res = StatisticsUtil.getMeanAndStandardDeviation(values);
 		System.out.println(MessageFormat.format("Mean: {0}, sd: {1}, instancesSize: {2}",res.getMean(), res.getStandardDeviation(), values.size()));
-	}
+}
 
 }
