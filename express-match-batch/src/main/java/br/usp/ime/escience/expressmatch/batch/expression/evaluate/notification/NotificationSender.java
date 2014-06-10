@@ -1,4 +1,4 @@
-package br.usp.ime.escience.expressmatch.expression.evaluate.batch.notification;
+package br.usp.ime.escience.expressmatch.batch.expression.evaluate.notification;
 
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;

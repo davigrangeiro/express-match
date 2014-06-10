@@ -1,4 +1,4 @@
-package br.usp.ime.escience.expressmatch.expression.evaluate.batch.writer;
+package br.usp.ime.escience.expressmatch.batch.expression.evaluate.writer;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;

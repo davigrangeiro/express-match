@@ -1,4 +1,4 @@
-package br.usp.ime.escience.expressmatch.batch;
+package br.usp.ime.escience.expressmatch.batch.general;
 
 import java.text.MessageFormat;
 import java.util.Date;

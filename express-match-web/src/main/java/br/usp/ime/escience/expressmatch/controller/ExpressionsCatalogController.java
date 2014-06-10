@@ -83,44 +83,44 @@ public class ExpressionsCatalogController implements Serializable{
 	}
 
 	private void assembleExpressionDataTree(Expression e) {
-		
-		this.expressionTree = new DefaultTreeNode(
-				MessageFormat.format("Expression {0} <br> {1}", 
-						 e.getId(), 
-						 e.getLabel()),
-						 null);
-		
-		for (Symbol symbol : e.getSymbols()) {
-			
-			TreeNode nodeSymbol = new DefaultTreeNode(
-					MessageFormat.format("Symbol {0} : {1} <br> Ref: {2}", 
-										 symbol.getId(), 
-										 symbol.getLabel(),
-										 symbol.getHref()), 
-										 expressionTree);
-			
-			for (Stroke stroke : symbol.getStrokes()) {
-				
-				TreeNode nodeStroke = new DefaultTreeNode(
-						MessageFormat.format("Stroke {0}", 
-								 stroke.getStrokeId()), 
-								 nodeSymbol);
-				
-				StringBuilder sb = new StringBuilder();
-
-				for (int i = 0; i < stroke.getPoints().size()-1; i++) {
-					sb.append(MessageFormat.format("X: {0}, Y: {1} <br>", 
-								stroke.getPoints().get(i).getX(),
-								stroke.getPoints().get(i).getY()));
-				}
-				sb.append(MessageFormat.format("X: {0}, Y: {1} <br>", 
-						stroke.getPoints().get(stroke.getPoints().size()-1).getX(),
-						stroke.getPoints().get(stroke.getPoints().size()-1).getY()));
-				
-				TreeNode nodePoint = new DefaultTreeNode(sb.toString(), nodeStroke);
-						;
-			}
-		}
+		 
+//		this.expressionTree = new DefaultTreeNode(
+//				MessageFormat.format("Expression {0} <br> {1}", 
+//						 e.getId(), 
+//						 e.getLabel()),
+//						 null);
+//		
+//		for (Symbol symbol : e.getSymbols()) {
+//			
+//			TreeNode nodeSymbol = new DefaultTreeNode(
+//					MessageFormat.format("Symbol {0} : {1} <br> Ref: {2}", 
+//										 symbol.getId(), 
+//										 symbol.getLabel(),
+//										 symbol.getHref()), 
+//										 expressionTree);
+//			
+//			for (Stroke stroke : symbol.getStrokes()) {
+//				
+//				TreeNode nodeStroke = new DefaultTreeNode(
+//						MessageFormat.format("Stroke {0}", 
+//								 stroke.getStrokeId()), 
+//								 nodeSymbol);
+//				
+//				StringBuilder sb = new StringBuilder();
+//
+//				for (int i = 0; i < stroke.getPoints().size()-1; i++) {
+//					sb.append(MessageFormat.format("X: {0}, Y: {1} <br>", 
+//								stroke.getPoints().get(i).getX(),
+//								stroke.getPoints().get(i).getY()));
+//				}
+//				sb.append(MessageFormat.format("X: {0}, Y: {1} <br>", 
+//						stroke.getPoints().get(stroke.getPoints().size()-1).getX(),
+//						stroke.getPoints().get(stroke.getPoints().size()-1).getY()));
+//				
+//				TreeNode nodePoint = new DefaultTreeNode(sb.toString(), nodeStroke);
+//						;
+//			}
+//		}
 	}
 	
 	public String nextEM(){
@@ -141,19 +141,19 @@ public class ExpressionsCatalogController implements Serializable{
 	private Stroke[] getStrokesForExpression(Expression type) {
 		Stroke[] modelStrokes = null;
 		
-		int strokeAmount = 0;
-		for (Symbol symbol : type.getSymbols()) {
-			strokeAmount += symbol.getStrokes().size();
-		}
-		
-		modelStrokes = new Stroke[strokeAmount];
-		int i = 0;
-		
-		for (Symbol symbol : type.getSymbols()) {
-			for (Stroke stroke : symbol.getStrokes()) {
-				modelStrokes[i++] = new Stroke(stroke);
-			}
-		}
+//		int strokeAmount = 0;
+//		for (Symbol symbol : type.getSymbols()) {
+//			strokeAmount += symbol.getStrokes().size();
+//		}
+//		
+//		modelStrokes = new Stroke[strokeAmount];
+//		int i = 0;
+//		
+//		for (Symbol symbol : type.getSymbols()) {
+//			for (Stroke stroke : symbol.getStrokes()) {
+//				modelStrokes[i++] = new Stroke(stroke);
+//			}
+//		}
 		return modelStrokes;
 	}
 

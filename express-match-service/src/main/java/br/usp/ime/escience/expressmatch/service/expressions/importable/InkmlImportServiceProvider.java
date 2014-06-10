@@ -82,7 +82,7 @@ public class InkmlImportServiceProvider {
 		expressionProvider.saveExpressions(expressions);
 		expressionProvider.saveExpressionTypes(models);
 		
-		shapeContextServiceProvider.generateAndSaveAllShapeDescriptorsFromExpressions(expressions);
+		shapeContextServiceProvider.generateShapeDescriptorForSymbols(expressions);
 	}
 	
 }

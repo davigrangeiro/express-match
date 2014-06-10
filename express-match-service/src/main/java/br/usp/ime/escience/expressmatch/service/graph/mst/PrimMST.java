@@ -108,6 +108,7 @@ public class PrimMST implements MinimumSpanningTree {
 		g.addVertex(new Vertex(6, 9, 2.5));
 		g.addVertex(new Vertex(7, 10, 2.5));
 		g.addVertex(new Vertex(8, 12, 1));
+		g.addVertex(new Vertex(9, 3, 3.5));
 		
 		MinimumSpanningTree mst = new PrimMST();
 		Node[] nodes = mst.getMST(g);

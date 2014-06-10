@@ -22,16 +22,12 @@
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="[%d{dd/MM/yy hh:mm:ss:sss z}] %5p %c{2}: %m%n" />
         </layout>
+        
     </appender>
  
-    <appender name="ASYNC" class="org.apache.log4j.AsyncAppender">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
-    </appender>
+    <appender name="EXPRESS_MATCH_BATCH_LOG_FILE" class="org.apache.log4j.RollingFileAppender">
  
-    <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
- 
-        <param name="File" value="/tmp/expressMatch/log/eMatch.log" />
+        <param name="File" value="/tmp/expressMatch/log/batch/eMatch.log" />
         <param name="MaxBackupIndex" value="40" />
  
         <layout class="org.apache.log4j.PatternLayout">
@@ -40,17 +36,43 @@
  
     </appender>
  
-    <category name="org.hibernate">
-        <priority value="DEBUG" />
-    </category>
+    <appender name="EXPRESS_MATCH_MAIN_LOG_FILE" class="org.apache.log4j.RollingFileAppender">
  
-    <category name="java.sql">
-        <priority value="debug" />
-    </category>
+        <param name="File" value="/tmp/expressMatch/log/main/eMatch.log" />
+        <param name="MaxBackupIndex" value="40" />
+ 
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{dd/MM/yy hh:mm:ss:sss z}] %5p %c{2}: %m%n" />
+        </layout>
+ 
+    </appender>
+     
+    <appender name="MAIN_ASSYNC" class="org.apache.log4j.AsyncAppender">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="EXPRESS_MATCH_MAIN_LOG_FILE" />
+    </appender>
+    
+    <appender name="BATCH_ASSYNC" class="org.apache.log4j.AsyncAppender">
+        <appender-ref ref="EXPRESS_MATCH_BATCH_LOG_FILE" />
+    </appender>
+ 	
+ 
+    <logger name="org.hibernate">
+        <level value="DEBUG" />
+    </logger>
+ 
+    <logger name="java.sql">
+        <level value="debug" />
+    </logger>
 	  
-    <root>
-        <priority value="DEBUG" />
-        <appender-ref ref="ASYNC" />
-    </root>
+    <logger name="br.usp.ime.escience.expressmatch">
+        <level value="DEBUG" />
+        <appender-ref ref="MAIN_ASSYNC" />
+    </logger>
+    
+    <logger name="br.usp.ime.escience.expressmatch.batch" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="BATCH_ASSYNC" />
+    </logger>
  
 </log4j:configuration>

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.usp.ime.escience.expressmatch.constants.SystemConstants;
 import br.usp.ime.escience.expressmatch.model.Expression;
@@ -109,7 +110,8 @@ public class ShapeContextServiceProvider {
 		return sDescriptor;
 	}
 	
-	
+
+	@Transactional
 	public double[][] getShapeContextDescriptor(Symbol s){
 		double[][] res = null;
 		
@@ -118,7 +120,7 @@ public class ShapeContextServiceProvider {
 			sd = s.getShapeDescriptors().iterator().next();
 		}
 		 
-		if (null == sd && null != sd.getValues() && !sd.getValues().isEmpty()) {
+		if (null != sd && null != sd.getValues() && !sd.getValues().isEmpty()) {
 	    	Gson parser = new Gson();
 	    	
 	    	res = parser.fromJson(sd.getValues(), double[][].class);
@@ -130,13 +132,18 @@ public class ShapeContextServiceProvider {
 	    
 		return res;
 	}
-	
+
+	@Transactional
 	public double[][] getShapeContextDescriptor(List<Stroke>  strokes){
 		double[][] res = null;
 		
 		Symbol s = new Symbol();
 		for (Stroke stroke: strokes) {
-			s.addCheckingBoundingBox(stroke);
+			Stroke newStroke = new Stroke();
+			for (Point p : stroke.getPoints()) {
+				newStroke.addCheckingBoundingBox(p);
+			}
+			s.addCheckingBoundingBox(newStroke);
 		}
 		
     	UserParameter parameters = this.userServiceProvider.getUserParameters();
@@ -179,14 +186,8 @@ public class ShapeContextServiceProvider {
 	    logger.info(MessageFormat.format("Saved {0} shape expression descriptors", res.size()));
 	    return res;
 	}
-	
-	public List<ShapeDescriptor> generateAndSaveAllShapeDescriptorsFromExpressions(List<Expression> expressions){
-	    List<ShapeDescriptor> res = generateAndSaveExpressionShapeDescriptors(expressions);
-	    res.addAll(generateShapeDescriptorForSymbols(expressions));
-	    return res;
-	}
 
-	private List<ShapeDescriptor> generateShapeDescriptorForSymbols(List<Expression> expressions) {
+	public List<ShapeDescriptor> generateShapeDescriptorForSymbols(List<Expression> expressions) {
 		List<Symbol> symbols = new ArrayList<>();
 	    List<ShapeDescriptor> res = null;
 	    

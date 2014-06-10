@@ -1,4 +1,4 @@
-package br.usp.ime.escience.expressmatch.expression.evaluate.batch.reader;
+package br.usp.ime.escience.expressmatch.batch.expression.evaluate.reader;
 
 import java.text.MessageFormat;
 import java.util.Iterator;

@@ -53,20 +53,20 @@
 		
 	<!-- JOB: Step 1 (expressionsEvaluating) Beans -->
 	
-	<bean id="expressionsReader" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.reader.ExpressionsReader">
+	<bean id="expressionsReader" class="br.usp.ime.escience.expressmatch.batch.expression.evaluate.reader.ExpressionsReader">
 		 <property name="expressionStatus" value="EXPRESSION_TRANSCRIBED" />
 	</bean>
 	
-	<bean id="expressionsProcessor" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.processor.ExpressionsProcessor">
+	<bean id="expressionsProcessor" class="br.usp.ime.escience.expressmatch.batch.expression.evaluate.processor.ExpressionsProcessor">
 	</bean>
 	
-	<bean id="expressionsWriter" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.writer.ExpressionsWriter">
+	<bean id="expressionsWriter" class="br.usp.ime.escience.expressmatch.batch.expression.evaluate.writer.ExpressionsWriter">
 	</bean>
 	
 		
 	<!-- JOB: Step 2 (expressionsNotification) Beans -->
 		
-	<bean id="expressionsNotificationSender" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.notification.NotificationSender">
+	<bean id="expressionsNotificationSender" class="br.usp.ime.escience.expressmatch.batch.expression.evaluate.notification.NotificationSender">
 	</bean>
 	
 	<!-- JOB 1 - End of definitions -->
@@ -101,14 +101,14 @@
 		
 	<!-- JOB: Step 1 (expressionsResultingEvaluating) Beans -->
 	
-	<bean id="expressionsResultReader" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.reader.ExpressionsReader">
+	<bean id="expressionsResultReader" class="br.usp.ime.escience.expressmatch.batch.expression.evaluate.reader.ExpressionsReader">
 		<property name="expressionStatus" value="EXPRESSION_VALIDATED" />
 	</bean>
 	
-	<bean id="expressionsResultProcessor" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.processor.ExpressionsProcessor">
+	<bean id="expressionsResultProcessor" class="br.usp.ime.escience.expressmatch.batch.expression.evaluate.processor.ExpressionsProcessor">
 	</bean>
 	
-	<bean id="expressionsResultWriter" class="br.usp.ime.escience.expressmatch.expression.evaluate.batch.writer.ExpressionsWriter">
+	<bean id="expressionsResultWriter" class="br.usp.ime.escience.expressmatch.batch.expression.evaluate.writer.ExpressionsWriter">
 	</bean>
 	
 	
@@ -116,12 +116,12 @@
 	
 	
 	<!-- Task Scheduler Runner for expressionsEvaluatingProcessor-->
-	<bean id="expressionsEvaluatingTaskRunner" class="br.usp.ime.escience.expressmatch.batch.TaskRunner">
+	<bean id="expressionsEvaluatingTaskRunner" class="br.usp.ime.escience.expressmatch.batch.general.TaskRunner">
 		<property name="job" ref="expressionsEvaluatingProcessor" />
 	</bean>
 	
 	<!-- Task Scheduler Runner for expressionsEvaluatingResultsProcessor-->
-	<bean id="expressionsEvaluatingResultsTaskRunner" class="br.usp.ime.escience.expressmatch.batch.TaskRunner">
+	<bean id="expressionsEvaluatingResultsTaskRunner" class="br.usp.ime.escience.expressmatch.batch.general.TaskRunner">
 		<property name="job" ref="expressionsEvaluatingResultsProcessor" />
 	</bean>
  
