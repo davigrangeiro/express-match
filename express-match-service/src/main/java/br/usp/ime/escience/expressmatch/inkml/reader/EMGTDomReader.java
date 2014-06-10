@@ -40,7 +40,7 @@ public class EMGTDomReader implements ExpressMatchGrountTruthReader<File> {
 	private final String ALL = "ALL";
 	
 	/** The path. */
-	private final String PATH = "C:\\davi\\pesssoais\\ime\\git\\express-match\\database\\expressions\\inkml";
+	private final String PATH = "/home/davi/git/express-match/database/expressions/inkml";
 	
 	/** The suffix extension. */
 	private final String SUFFIX_EXTENSION = ".inkml";

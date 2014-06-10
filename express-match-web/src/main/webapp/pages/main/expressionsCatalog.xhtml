@@ -13,13 +13,18 @@
     	<ui:composition template="/pages/main/template/template.xhtml">
  
     		<ui:define name="content">
+    		
+    			<h:form>
+        			<f:event type="preRenderView" listener="#{expressionsCatalogController.init}" />
+    			</h:form>	
+    			
     			<h2>Expressions Catalog</h2>
 
 				<dp:panel id="expressionsCatalogPanel" width="400" height="180" drawable="false"
 					jsonVar="#{expressionsCatalogController.jsonString}" name="Model Expression"
 					onNext="#{expressionsCatalogController.nextEM}" onPrevious="#{expressionsCatalogController.previousEM}"/>
 				    
-				    
+				<!-- 
 				<h:form id="expressionTreeform">
 				 	
 				    <p:tree value="#{expressionsCatalogController.expressionTree}" var="node" id="expressionModelTree"  orientation="horizontal">
@@ -31,7 +36,7 @@
 					<p:draggable for="expressionModelTree" opacity="0.8"/>
 								 
 				</h:form>
-				
+				 -->
 				
 			</ui:define>			
 

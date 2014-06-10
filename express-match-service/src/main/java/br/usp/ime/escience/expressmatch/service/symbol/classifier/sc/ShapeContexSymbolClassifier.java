@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.usp.ime.escience.expressmatch.model.Point;
 import br.usp.ime.escience.expressmatch.model.Stroke;
 import br.usp.ime.escience.expressmatch.model.Symbol;
 import br.usp.ime.escience.expressmatch.model.graph.Vertex;
@@ -33,6 +34,8 @@ public class ShapeContexSymbolClassifier implements SymbolClassifier {
 	
 	@Autowired
 	private SymbolRepository symbolRepository;
+	
+	
 	
 	@Override
 	public SymbolClassifierResponse match(SymbolClassifierRequest request) {

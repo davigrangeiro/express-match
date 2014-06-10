@@ -1,15 +1,14 @@
 package br.usp.ime.escience.expressmatch.controller;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +18,9 @@ import org.springframework.stereotype.Component;
 import br.usp.ime.escience.expressmatch.model.Expression;
 import br.usp.ime.escience.expressmatch.model.ExpressionType;
 import br.usp.ime.escience.expressmatch.model.Stroke;
-import br.usp.ime.escience.expressmatch.model.Symbol;
 import br.usp.ime.escience.expressmatch.service.expressions.ExpressionServiceProvider;
 import br.usp.ime.escience.expressmatch.service.json.StrokeJSONParser;
+import br.usp.ime.escience.expressmatch.utils.FacesUtils;
 
 @Component
 @ManagedBean
@@ -58,7 +57,6 @@ public class ExpressionsCatalogController implements Serializable{
 	}
 	
 	
-	@PostConstruct
 	public void init() {
 		FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		types = this.expressionServiceProvider.loadExpressionTypes();
@@ -79,6 +77,9 @@ public class ExpressionsCatalogController implements Serializable{
 			setJsonString(this.getStrokeParser().toJSON(modelStrokes));
 			
 			assembleExpressionDataTree(this.expression);
+			
+		} else {
+			FacesUtils.addMessage("Warning", "There is no model expressions to be transcribed", FacesMessage.SEVERITY_WARN);
 		}
 	}
 

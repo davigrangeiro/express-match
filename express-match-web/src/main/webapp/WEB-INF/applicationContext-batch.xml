@@ -44,7 +44,7 @@
 		<!-- Step 2 : Send a notification for each evaluated expression -->
 		<batch:step id="expressionsNotification">
 			
-			<batch:tasklet ref="expressionsNotificationSender" />
+			<batch:tasklet ref="notificationSender" />
 			
 		</batch:step>
 		
@@ -64,9 +64,9 @@
 	</bean>
 	
 		
-	<!-- JOB: Step 2 (expressionsNotification) Beans -->
+	<!-- JOB 1: Step 2 (expressionsNotification) Beans -->
 		
-	<bean id="expressionsNotificationSender" class="br.usp.ime.escience.expressmatch.batch.expression.evaluate.notification.NotificationSender">
+	<bean id="notificationSender" class="br.usp.ime.escience.expressmatch.batch.expression.evaluate.notification.NotificationSender">
 	</bean>
 	
 	<!-- JOB 1 - End of definitions -->
@@ -92,14 +92,14 @@
 		<!-- Step 2 : Send a notification for each evaluated expression -->
 		<batch:step id="expressionsNotificationResults">
 			
-			<batch:tasklet ref="expressionsNotificationSender" />
+			<batch:tasklet ref="notificationSender" />
 			
 		</batch:step>
 		
 	</batch:job>
 	
 		
-	<!-- JOB: Step 1 (expressionsResultingEvaluating) Beans -->
+	<!-- JOB 2: Step 1 (expressionsResultingEvaluating) Beans -->
 	
 	<bean id="expressionsResultReader" class="br.usp.ime.escience.expressmatch.batch.expression.evaluate.reader.ExpressionsReader">
 		<property name="expressionStatus" value="EXPRESSION_VALIDATED" />
@@ -114,20 +114,75 @@
 	
 	<!-- JOB 2 - End of definitions -->
 	
+	<!-- JOB 3 : Calculates mean and standard Deviation for each class of symbol -->
+	<batch:job id="symbolClassifierMeansProcessor">
+		
+		<!-- Step 1 : Evaluating and save all expressions -->
+		<batch:step id="symbolClassClassifyingResults" next="symbolClassClassifyingNotificationResults">
+			
+			<batch:tasklet>
+			
+				<batch:chunk reader="symboClassResultsReader" 
+							 processor="symboClassResultsProcessor"
+					   		 writer="symboClassResultsWriter" 
+					   		 commit-interval="1" />
+					   		 
+			</batch:tasklet>
+			
+		</batch:step>
+		
+		<!-- Step 2 : Send a notification for each evaluated expression -->
+		<batch:step id="symbolClassClassifyingNotificationResults">
+			
+			<batch:tasklet ref="notificationSender" />
+			
+		</batch:step>
+		
+	</batch:job>
 	
-	<!-- Task Scheduler Runner for expressionsEvaluatingProcessor-->
+		
+	<!-- JOB 3: Step 1 (symbolClassClassifyingResults) Beans -->
+	
+	<bean id="symboClassResultsReader" class="br.usp.ime.escience.expressmatch.batch.symbol.classifying.reader.SymboClassResultsReader">
+	</bean>
+	
+	<bean id="symboClassResultsProcessor" class="br.usp.ime.escience.expressmatch.batch.symbol.classifying.processor.SymboClassResultsProcessor">
+	</bean>
+	
+	<bean id="symboClassResultsWriter" class="br.usp.ime.escience.expressmatch.batch.symbol.classifying.writer.SymboClassResultsWriter">
+	</bean>
+	
+	<!-- JOB 3 - End of definitions -->
+	
+	<!-- END - JOB Definitions -->
+	
+	
+	
+	<!-- Task Scheduling Definitions-->
+	
+	<!-- Task Scheduler Runner for expressionsEvaluatingProcessor -->
 	<bean id="expressionsEvaluatingTaskRunner" class="br.usp.ime.escience.expressmatch.batch.general.TaskRunner">
 		<property name="job" ref="expressionsEvaluatingProcessor" />
 	</bean>
 	
-	<!-- Task Scheduler Runner for expressionsEvaluatingResultsProcessor-->
+	<!-- Task Scheduler Runner for expressionsEvaluatingResultsProcessor -->
 	<bean id="expressionsEvaluatingResultsTaskRunner" class="br.usp.ime.escience.expressmatch.batch.general.TaskRunner">
 		<property name="job" ref="expressionsEvaluatingResultsProcessor" />
 	</bean>
+	
+	<!-- Task Scheduler Runner for symbolClassifierMeansProcessor  -->
+	<bean id="symbolClassifierMeansTaskRunner" class="br.usp.ime.escience.expressmatch.batch.general.TaskRunner">
+		<property name="job" ref="symbolClassifierMeansProcessor" />
+	</bean>
  
-	<!-- Run every 7 days -->
+	<!-- Run every half month -->
 	<task:scheduled-tasks>
-		<task:scheduled ref="expressionsEvaluatingTaskRunner" method="run" fixed-delay="50000" />
+		<task:scheduled ref="expressionsEvaluatingTaskRunner" method="run" fixed-delay="1314000000" />
+	</task:scheduled-tasks>
+	
+	<!-- Run every month -->
+	<task:scheduled-tasks>
+		<task:scheduled ref="symbolClassifierMeansTaskRunner" method="run" fixed-delay="2628000000" />
 	</task:scheduled-tasks>
 		
 </beans>

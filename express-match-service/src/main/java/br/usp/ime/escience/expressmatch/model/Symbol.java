@@ -41,6 +41,10 @@ public class Symbol implements java.io.Serializable {
 
 	public Symbol() {
 	}
+	
+	public Symbol(List<Stroke> strokes) {
+		this.strokes = strokes;
+	}
 
 	public Symbol(Expression expression) {
 		this.expression = expression;
@@ -52,11 +56,35 @@ public class Symbol implements java.io.Serializable {
 		this.strokes = strokes;
 	}
 	
+	@Transient
+	public Point getBoundingBoxSize(){
+		Point res = new Point();
+		
+		if (null == ltPoint || null == rbPoint){
+			
+			for (int i = 0; i < this.strokes.size(); i++) {
+				Stroke current = this.strokes.remove(0);
+				
+				for (int j = 0; j < current.getPoints().size(); j++) {
+					current.addCheckingBoundingBox(current.getPoints().remove(0));
+				}
+				
+				this.addCheckingBoundingBox(current);
+			}
+			
+		}
+		
+		res.setX(Math.abs(this.ltPoint.getX() + this.rbPoint.getX()));
+		res.setY(Math.abs(this.ltPoint.getY() + this.rbPoint.getY()));
+		
+		return res;
+	}
+	
 
     public boolean addCheckingBoundingBox(Stroke e) {
         Point p1= e.getLtPoint();
         Point p2= e.getRbPoint();
-        if(this.getStrokes().isEmpty()){
+        if(this.getStrokes().isEmpty() || null == ltPoint || null == rbPoint ){
             ltPoint = new Point(p1);
             rbPoint = new Point(p2);
         }

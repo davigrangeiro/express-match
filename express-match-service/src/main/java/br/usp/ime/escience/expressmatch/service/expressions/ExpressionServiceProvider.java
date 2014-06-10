@@ -179,6 +179,29 @@ public class ExpressionServiceProvider {
 		}
 	}
 	
-	
+	public List<Stroke> normalizeTranscriptionBySymbolModel(List<Stroke> transcription, Symbol symbolModel) {
+		List<Stroke> normalizedStrokes = new ArrayList<>();
+		Symbol currentTranscription = new Symbol(transcription);
+
+		Point modelBoundingBoxSize = symbolModel.getBoundingBoxSize(),
+			  transcriptionBoundingBoxSize = currentTranscription.getBoundingBoxSize();
+		
+		double xScale = transcriptionBoundingBoxSize.getX() / modelBoundingBoxSize.getX();
+		double yScale = transcriptionBoundingBoxSize.getY() / modelBoundingBoxSize.getY(); 
+		
+		for (Stroke stroke : transcription) {
+			Stroke normalized = new Stroke();
+			
+			for (Point p : stroke.getPoints()) {
+				Point newPoint = new Point((float)(p.getX() * xScale),(float)(p.getY() * yScale));
+				normalized.addCheckingBoundingBox(newPoint);
+			}
+			
+			normalizedStrokes.add(normalized);
+		}
+		
+		return normalizedStrokes;
+	}
+
 	
 }

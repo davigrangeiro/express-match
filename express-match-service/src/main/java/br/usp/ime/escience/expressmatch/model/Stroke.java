@@ -53,7 +53,7 @@ public class Stroke implements java.io.Serializable {
 	public Point getRepresentantPointOfStroke(){
 		Point res = new Point();
 		
-		if (null == ltPoint || null == ltPoint){
+		if (null == ltPoint || null == rbPoint){
 			
 			for (int i = 0; i < this.points.size(); i++) {
 				this.addCheckingBoundingBox(this.points.remove(0));
@@ -61,7 +61,7 @@ public class Stroke implements java.io.Serializable {
 		}
 		
 		res.setX(this.ltPoint.getX() + (Math.abs(this.ltPoint.getX() + this.rbPoint.getX())/2));
-		res.setX(this.rbPoint.getY() + (Math.abs(this.ltPoint.getY() + this.rbPoint.getX())/2));
+		res.setY(this.rbPoint.getY() + (Math.abs(this.ltPoint.getY() + this.rbPoint.getY())/2));
 		
 		return res;
 	}

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -22,6 +21,7 @@ import br.usp.ime.escience.expressmatch.model.Symbol;
 import br.usp.ime.escience.expressmatch.model.User;
 import br.usp.ime.escience.expressmatch.service.expressions.ExpressionServiceProvider;
 import br.usp.ime.escience.expressmatch.service.json.StrokeJSONParser;
+import br.usp.ime.escience.expressmatch.utils.FacesUtils;
 
 @Component
 @ManagedBean
@@ -70,20 +70,20 @@ public class EvaluateExpressionsPanelController implements Serializable{
 			
 			if (null != this.strokes && this.strokes.length > 0) {
 				this.expressionServiceProvider.saveTranscription(this.strokes, this.types.get(this.eTypeIndex), this.userController.getUser(), this.userExpression);
-				addMessage("Success", "Your transcription was successfully saved", null);
+				FacesUtils.addMessage("Success", "Your transcription was successfully saved", null);
 			} else {
-				addMessage("Warning", "You should transcribe the expression before save.", FacesMessage.SEVERITY_WARN);
+				FacesUtils.addMessage("Warning", "You should transcribe the expression before save.", FacesMessage.SEVERITY_WARN);
 			}
 			
 		} catch (ExpressMatchExpression e){
 			LOGGER.error(e.getMessage(), e);
 
-			addMessage("Error", e.getMessage(), FacesMessage.SEVERITY_ERROR);
+			FacesUtils.addMessage("Error", e.getMessage(), FacesMessage.SEVERITY_ERROR);
 		}
 		catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 
-			addMessage("Error", "There was an error while saving the transcription", FacesMessage.SEVERITY_ERROR);
+			FacesUtils.addMessage("Error", "There was an error while saving the transcription", FacesMessage.SEVERITY_ERROR);
 		} finally {
 			loadExpressionType(eTypeIndex, this.userController.getUser());
 		}
@@ -122,6 +122,9 @@ public class EvaluateExpressionsPanelController implements Serializable{
 				userEMStrokes = getStrokesForExpression(userExpression);
 				setJsonString(this.getStrokeParser().toJSON(userEMStrokes));
 			}
+			
+		} else {
+			FacesUtils.addMessage("Warning", "There is no model expressions to be transcribed", FacesMessage.SEVERITY_WARN);
 		}
 	}
 	
@@ -163,15 +166,6 @@ public class EvaluateExpressionsPanelController implements Serializable{
 		return modelStrokes;
 	}
 	
-	public void addMessage(String header, String desc, Severity severity){
-		FacesContext context = FacesContext.getCurrentInstance();
-        
-		if(null == severity){
-			severity = FacesMessage.SEVERITY_INFO;
-		}
-		
-		context.addMessage(null, new FacesMessage(severity, header, desc));
-	}
 
 	/**
 	 * @return the strokeParser

@@ -22,6 +22,9 @@ public class StatisticsUtil {
 		standardDeviation = Math.sqrt(accumulatedSquaredDeviation);
 		
 		return new MeanAndStandardDeviationResponse(mean, standardDeviation);
+		
+		//Mean: 0.356, sd: 0.062, instancesSize: 1,781
+		//Mean: 0.356, sd: 0.062, instancesSize: 1,781
 	}
 	
 }
