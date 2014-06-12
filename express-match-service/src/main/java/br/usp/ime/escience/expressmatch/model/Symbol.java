@@ -123,7 +123,7 @@ public class Symbol implements java.io.Serializable {
 		this.expression = expression;
 	}
 
-	@Column(name = "label", length = 40)
+	@Column(name = "label", length = 100)
 	public String getLabel() {
 		return this.label;
 	}

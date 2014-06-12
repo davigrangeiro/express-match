@@ -2,7 +2,7 @@ package br.usp.ime.escience.expressmatch.service.combinatorial;
 
 import org.springframework.stereotype.Service;
 
-import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifier;
+import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierServiceProvider;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierRequest;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierResponse;
 
@@ -10,7 +10,7 @@ import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifi
 public class CombinatorialGeneratorServiceProvider{
 
 	
-	public void generatePermutations(int[] permutation, int i, int j, int[] values, SymbolClassifier symbolClassifier){
+	public void generatePermutations(int[] permutation, int i, int j, int[] values, SymbolClassifierServiceProvider symbolClassifier){
 		if (i < permutation.length) {
 			
 			for (int k = j ; k < values.length; k++) {
@@ -24,7 +24,7 @@ public class CombinatorialGeneratorServiceProvider{
 			SymbolClassifierRequest request = new SymbolClassifierRequest();
 			SymbolClassifierResponse response = null;
 			
-			response = symbolClassifier.match(request);
+			response = symbolClassifier.matchTranscription(request);
 		}
 	}
 	

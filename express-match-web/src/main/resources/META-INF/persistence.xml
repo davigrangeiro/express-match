@@ -15,10 +15,14 @@
 		<class>br.usp.ime.escience.expressmatch.model.ShapeDescriptorType</class>
 		<class>br.usp.ime.escience.expressmatch.model.Stroke</class>
 		<class>br.usp.ime.escience.expressmatch.model.Symbol</class>
+		<class>br.usp.ime.escience.expressmatch.model.SymbolClass</class>
 		<class>br.usp.ime.escience.expressmatch.model.User</class>
 		<class>br.usp.ime.escience.expressmatch.model.UserInfo</class>
 		<class>br.usp.ime.escience.expressmatch.model.UserParameter</class>
 		<class>br.usp.ime.escience.expressmatch.model.Authorities</class>
+		
+		<class>br.usp.ime.escience.expressmatch.model.ExpressionMatch</class>
+		<class>br.usp.ime.escience.expressmatch.model.SymbolMatch</class>
     
     </persistence-unit>
     

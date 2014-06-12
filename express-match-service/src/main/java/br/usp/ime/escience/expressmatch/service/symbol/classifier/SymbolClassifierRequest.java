@@ -1,14 +1,11 @@
 package br.usp.ime.escience.expressmatch.service.symbol.classifier;
 
-import java.util.List;
-
-import br.usp.ime.escience.expressmatch.model.Stroke;
 import br.usp.ime.escience.expressmatch.model.Symbol;
 
-public class SymbolClassifierRequest {
+public class SymbolClassifierRequest<SymbolOrStrokeList>{
 
 	private Symbol sModel;
-	private List<Stroke> sTranscription;
+	private SymbolOrStrokeList sTranscription;
 	
 	public Symbol getsModel() {
 		return sModel;
@@ -16,10 +13,10 @@ public class SymbolClassifierRequest {
 	public void setsModel(Symbol sModel) {
 		this.sModel = sModel;
 	}
-	public List<Stroke> getsTranscription() {
+	public SymbolOrStrokeList getsTranscription() {
 		return sTranscription;
 	}
-	public void setsTranscription(List<Stroke> sTranscription) {
+	public void setsTranscription(SymbolOrStrokeList sTranscription) {
 		this.sTranscription = sTranscription;
 	}
 	

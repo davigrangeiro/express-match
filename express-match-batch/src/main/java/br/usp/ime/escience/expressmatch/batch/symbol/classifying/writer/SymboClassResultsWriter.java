@@ -26,7 +26,7 @@ public class SymboClassResultsWriter implements ItemWriter<SymbolClass> {
 		for (SymbolClass symbolClass : arg0) {
 			symbolClassRepository.save(symbolClass);
 			
-			LOGGER.info(MessageFormat.format("Saved symbol class with id {0} of label {1}", symbolClass, symbolClass));
+			LOGGER.info(MessageFormat.format("Saved symbol class with id {0} of label {1} ", symbolClass, symbolClass));
 		}
 		
 	}
