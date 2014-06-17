@@ -1,5 +1,6 @@
 package br.usp.ime.escience.expressmatch.batch.symbol.classifying.processor;
 
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,17 @@ public class SymboClassResultsProcessor implements ItemProcessor<List<Symbol>, S
 	@Override
 	public SymbolClass process(List<Symbol> arg0) throws Exception {
 		SymbolClass res = new SymbolClass();
+
+		Symbol instanceModelSymbol = arg0.get(0);
 		
+		List<MeanAndStandardDeviationResponse> meansForSymbol = testClassifierForLabel(arg0);
+		MeanAndStandardDeviationResponse pooledMean = StatisticsUtil.getMeanAndStandardDeviationForSeveralInstances(meansForSymbol);
 		
-		
+		res.setLabel(instanceModelSymbol.getLabel());
+		res.setInstanceSize(pooledMean.getInstanceSize() * 1l);
+		res.setMean(new BigDecimal(pooledMean.getMean()));
+		res.setSd(new BigDecimal(pooledMean.getStandardDeviation()));
+
 		return res;
 	}
 	

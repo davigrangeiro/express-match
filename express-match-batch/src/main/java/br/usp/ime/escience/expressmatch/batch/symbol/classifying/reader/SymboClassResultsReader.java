@@ -37,15 +37,15 @@ public class SymboClassResultsReader implements ItemReader<List<Symbol>> {
 		loadSymbolClassesData();
 		
 		if (isThereAnySymbolClassToProcess()) {
-			res = getNextSetOfSymbols();
+			String NextLabel = distinctSymbolClassesIterator.next();
+			res = getNextSetOfSymbols(NextLabel);
 		}
 		return res;
 	}
 
 
-	private List<Symbol> getNextSetOfSymbols() {
+	private List<Symbol> getNextSetOfSymbols(String label) {
 		List<Symbol> res;
-		String label = distinctSymbolClassesIterator.next();
 		res = symbolRepository.findByLabel(label);
 		
 		LOGGER.info(MessageFormat.format("Returning {0} instances of symbol class {1}", res.size(), label));

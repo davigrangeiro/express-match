@@ -24,6 +24,9 @@ public class SymboClassResultsWriter implements ItemWriter<SymbolClass> {
 	public void write(List<? extends SymbolClass> arg0) throws Exception {
 		
 		for (SymbolClass symbolClass : arg0) {
+			SymbolClass oldSymbolClass = symbolClassRepository.findByLabel(symbolClass.getLabel());
+			symbolClass.setId(oldSymbolClass.getId());
+			
 			symbolClassRepository.save(symbolClass);
 			
 			LOGGER.info(MessageFormat.format("Saved symbol class with id {0} of label {1} ", symbolClass, symbolClass));

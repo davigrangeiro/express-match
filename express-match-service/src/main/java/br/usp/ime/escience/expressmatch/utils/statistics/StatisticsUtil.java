@@ -4,9 +4,9 @@ import java.util.List;
 
 public class StatisticsUtil {
 
-	public static MeanAndStandardDeviationResponse getMeanAndStandardDeviation(List<Double> instances){
+	public static MeanAndStandardDeviationResponse getMeanAndStandardDeviation(List<Double> instances) {
 		double mean = 0.0,
-			   accumulatedSquaredDeviation = 0.0,
+			   accumulatedSquaredVariation = 0.0,
 			   standardDeviation = 0.0;
 		
 		for (double d : instances) {
@@ -15,16 +15,38 @@ public class StatisticsUtil {
 		mean /= instances.size();
 		
 		for (double d : instances) {
-			accumulatedSquaredDeviation += Math.pow((d-mean), 2.0);
+			accumulatedSquaredVariation += Math.pow((d-mean), 2.0);
 		} 
 		
-		accumulatedSquaredDeviation /= (instances.size() - 1);
-		standardDeviation = Math.sqrt(accumulatedSquaredDeviation);
+		accumulatedSquaredVariation /= (instances.size() - 1);
+		standardDeviation = Math.sqrt(accumulatedSquaredVariation);
 		
-		return new MeanAndStandardDeviationResponse(mean, standardDeviation);
+		return new MeanAndStandardDeviationResponse(mean, standardDeviation, accumulatedSquaredVariation, instances.size());
+	}
+	
+	
+	public static MeanAndStandardDeviationResponse getMeanAndStandardDeviationForSeveralInstances(List<MeanAndStandardDeviationResponse> severalSamples) {
+		//Pooled_variance	
+	
+		double mean = 0.0,
+			   accumulatedSquaredVariation = 0.0,
+			   standardDeviation = 0.0;
+		int sumOfSetsSize = 0;
+				
 		
-		//Mean: 0.356, sd: 0.062, instancesSize: 1,781
-		//Mean: 0.356, sd: 0.062, instancesSize: 1,781
+		for (MeanAndStandardDeviationResponse meanI : severalSamples) {
+			mean += meanI.getMean();
+			sumOfSetsSize += meanI.getInstanceSize() - 1;
+			accumulatedSquaredVariation += meanI.getVariation() * (meanI.getInstanceSize() - 1); // Sum (ni-1 * iSetVariation)
+		}
+		
+		mean /= severalSamples.size();
+		
+		accumulatedSquaredVariation /= sumOfSetsSize; // size = (n-1)*n = n^2-n
+		
+		standardDeviation = Math.sqrt(accumulatedSquaredVariation);
+		
+		return new MeanAndStandardDeviationResponse(mean, standardDeviation, accumulatedSquaredVariation, severalSamples.size());
 	}
 	
 }

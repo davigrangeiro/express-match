@@ -3,13 +3,17 @@ package br.usp.ime.escience.expressmatch.utils.statistics;
 public class MeanAndStandardDeviationResponse {
 
 	private double mean;
-	private double StandardDeviation;
+	private double variation;
+	private double standardDeviation;
+	private int    instanceSize;
 	
 	
-	public MeanAndStandardDeviationResponse(double mean, double standardDeviation) {
+	public MeanAndStandardDeviationResponse(double mean, double standardDeviation, double variation, int instanceSize) {
 		super();
 		this.mean = mean;
-		StandardDeviation = standardDeviation;
+		this.standardDeviation = standardDeviation;
+		this.variation = variation;
+		this.instanceSize = instanceSize;
 	}
 
 
@@ -19,7 +23,17 @@ public class MeanAndStandardDeviationResponse {
 
 
 	public double getStandardDeviation() {
-		return StandardDeviation;
+		return standardDeviation;
+	}
+
+
+	public double getVariation() {
+		return variation;
+	}
+
+
+	public int getInstanceSize() {
+		return instanceSize;
 	}
 	
 	

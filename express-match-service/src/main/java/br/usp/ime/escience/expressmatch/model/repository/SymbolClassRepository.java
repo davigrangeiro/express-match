@@ -6,4 +6,6 @@ import br.usp.ime.escience.expressmatch.model.SymbolClass;
 
 public interface SymbolClassRepository extends JpaRepository<SymbolClass, Long> {
 
+	SymbolClass findByLabel(String label);
+	
 }
