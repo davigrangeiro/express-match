@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import br.usp.ime.escience.expressmatch.model.Symbol;
 import br.usp.ime.escience.expressmatch.model.repository.SymbolRepository;
+import br.usp.ime.escience.expressmatch.model.status.SymbolStatusEnum;
 
 @Component
 public class SymboClassResultsReader implements ItemReader<List<Symbol>> {
@@ -46,7 +47,7 @@ public class SymboClassResultsReader implements ItemReader<List<Symbol>> {
 
 	private List<Symbol> getNextSetOfSymbols(String label) {
 		List<Symbol> res;
-		res = symbolRepository.findByLabel(label);
+		res = symbolRepository.findByLabelAndSymbolStatus(label, SymbolStatusEnum.SYMBOL_VALIDATED.getValue());
 		
 		LOGGER.info(MessageFormat.format("Returning {0} instances of symbol class {1}", res.size(), label));
 		return res;

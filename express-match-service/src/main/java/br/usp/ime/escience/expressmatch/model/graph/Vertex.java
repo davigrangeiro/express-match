@@ -15,7 +15,8 @@ public class Vertex {
 	private int id; // indice no grafo
 	private double[] shapeContextExpression; // cada vertices tem um vetor de 60 medidas (shape context)
 	private double[][] shapeContextSymbol;
-
+	private double vertexSize;
+	
 	public Vertex(double[][] shapeContextSymbol) {
 		super();
 		this.shapeContextSymbol = shapeContextSymbol;
@@ -106,6 +107,14 @@ public class Vertex {
 
 	public void setValue(double value) {
 		this.value = value;
+	}
+
+	public double getVertexSize() {
+		return vertexSize;
+	}
+
+	public void setVertexSize(double vertexSize) {
+		this.vertexSize = vertexSize;
 	}
 
 }

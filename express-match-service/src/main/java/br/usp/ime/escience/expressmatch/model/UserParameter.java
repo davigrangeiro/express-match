@@ -31,6 +31,7 @@ public class UserParameter implements java.io.Serializable {
 	private int polarGlobalRegions;
 	private int angularGlobalRegions;
 	private int pointsPerSymbol;
+	private float strokeSizeMultiplier;
 	private Date insertDate;
 	private Boolean root;
 	private Set<UserInfo> userInfos = new HashSet<UserInfo>(0);
@@ -116,6 +117,15 @@ public class UserParameter implements java.io.Serializable {
 
 	public void setPointsPerSymbol(int pointsPerSymbol) {
 		this.pointsPerSymbol = pointsPerSymbol;
+	}
+
+	@Column(name = "stroke_size_multiplier", nullable = false)
+	public float getStrokeSizeMultiplier() {
+		return strokeSizeMultiplier;
+	}
+
+	public void setStrokeSizeMultiplier(float strokeSizeMultiplier) {
+		this.strokeSizeMultiplier = strokeSizeMultiplier;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

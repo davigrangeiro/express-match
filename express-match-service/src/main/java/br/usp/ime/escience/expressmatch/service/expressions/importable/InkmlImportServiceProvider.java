@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.usp.ime.escience.expressmatch.inkml.reader.EMGTDomReader;
 import br.usp.ime.escience.expressmatch.model.Expression;
@@ -17,6 +18,7 @@ import br.usp.ime.escience.expressmatch.service.graph.cost.ShapeContextServicePr
 import br.usp.ime.escience.expressmatch.service.user.UserServiceProvider;
 
 @Service
+@Transactional
 public class InkmlImportServiceProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger(InkmlImportServiceProvider.class);

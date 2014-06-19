@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 
 
 @Service
+@Transactional
 public class ShapeContextServiceProvider {
 
 
@@ -111,7 +112,6 @@ public class ShapeContextServiceProvider {
 	}
 	
 
-	@Transactional
 	public double[][] getShapeContextDescriptor(Symbol s){
 		double[][] res = null;
 		
@@ -133,7 +133,6 @@ public class ShapeContextServiceProvider {
 		return res;
 	}
 
-	@Transactional
 	public double[][] getShapeContextDescriptor(List<Stroke>  strokes){
 		double[][] res = null;
 		

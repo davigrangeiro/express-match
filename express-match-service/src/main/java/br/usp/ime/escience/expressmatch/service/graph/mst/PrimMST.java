@@ -11,6 +11,7 @@ import br.usp.ime.escience.expressmatch.model.graph.Vertex;
 import br.usp.ime.escience.expressmatch.service.graph.cost.Cost;
 import br.usp.ime.escience.expressmatch.service.graph.cost.EuclideanDistance;
 import br.usp.ime.escience.expressmatch.service.graph.mst.general.Candidate;
+import br.usp.ime.escience.expressmatch.service.graph.mst.general.CompleteGraphBuilder;
 import br.usp.ime.escience.expressmatch.service.graph.mst.general.MinimumSpanningTree;
 
 public class PrimMST implements MinimumSpanningTree {
@@ -26,7 +27,7 @@ public class PrimMST implements MinimumSpanningTree {
 	}
     
 	@Override
-	public Node[] getMST(Graph in, Cost<Node, Double> cost) {
+	public Node[] getMST(Graph in, Cost<Vertex, Double> cost) {
 		
 		PriorityQueue<Candidate> pq = new PriorityQueue<Candidate> ();
 		Node currentVertex, 
@@ -73,27 +74,18 @@ public class PrimMST implements MinimumSpanningTree {
         return nodeList;
 	}
 
-	@SuppressWarnings("unchecked")
-	private void createBaseGraph(Graph in, Cost<Node, Double> cost) {
+	private void createBaseGraph(Graph in, Cost<Vertex, Double> cost) {
 		int i = 0;
 		nodeList = new Node[in.getVertexSize()];
-		neighbours = new ArrayList[in.getVertexSize()];
 		
 		for (Vertex v : in.getIndexedVertexes()) {
 			nodeList[i] = new Node(v.getId(), v.getX(), v.getY(), i);
 			nodeList[i].setValue(Double.MAX_VALUE);
 			nodeList[i].setVisited(Boolean.FALSE);
-			neighbours[i] = new ArrayList<>();
 			i++;
 		}
 		
-		for (int j = 0; j < nodeList.length - 1; j++) {
-			for (int k = j+1; k < nodeList.length; k++) {
-				double costD = cost.getCost(nodeList[j], nodeList[k]);
-				neighbours[j].add(new Edge(nodeList[j], nodeList[k], costD));
-				neighbours[k].add(new Edge(nodeList[k], nodeList[j], costD));
-			}
-		}
+		neighbours = CompleteGraphBuilder.getCompleteGraphEdges(nodeList, cost);
 	}
 	
 	public static void main(String[] args) {
