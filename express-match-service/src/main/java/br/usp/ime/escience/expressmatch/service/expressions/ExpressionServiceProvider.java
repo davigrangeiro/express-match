@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.usp.ime.escience.expressmatch.exception.ExpressMatchExpression;
 import br.usp.ime.escience.expressmatch.model.Expression;
@@ -23,6 +24,7 @@ import br.usp.ime.escience.expressmatch.model.repository.UserInfoRepository;
 import br.usp.ime.escience.expressmatch.model.status.ExpressionStatusEnum;
 
 @Service
+@Transactional
 public class ExpressionServiceProvider {
 
 	private static final int NOT_EVALUATED_STROKE = -1;

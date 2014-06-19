@@ -63,11 +63,21 @@
     </logger>
  
     <logger name="java.sql">
-        <level value="debug" />
+        <level value="DEBUG" />
     </logger>
 	  
     <logger name="br.usp.ime.escience.expressmatch">
         <level value="DEBUG" />
+        <appender-ref ref="MAIN_ASSYNC" />
+    </logger>
+    
+    <logger name="org.springframework.batch" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="BATCH_ASSYNC" />
+    </logger>
+    
+    <logger name="org.springframework">
+        <level value="INFO" />
         <appender-ref ref="MAIN_ASSYNC" />
     </logger>
     

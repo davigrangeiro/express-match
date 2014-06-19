@@ -31,6 +31,7 @@ public class Symbol implements java.io.Serializable {
 	private Expression expression;
 	private String label;
 	private String href;
+	private Integer symbolStatus;
 	private boolean representant;
 	private Set<ShapeDescriptor> shapeDescriptors = new HashSet<>(0);
 	private List<Stroke> strokes = new ArrayList<>(0);
@@ -162,6 +163,7 @@ public class Symbol implements java.io.Serializable {
 	/**
 	 * @return the href
 	 */
+	@Column(name = "href", nullable = false, length = 20)
 	public String getHref() {
 		return href;
 	}
@@ -171,6 +173,15 @@ public class Symbol implements java.io.Serializable {
 	 */
 	public void setHref(String href) {
 		this.href = href;
+	}
+
+	@Column(name = "symbol_status", nullable = false)
+	public Integer getSymbolStatus() {
+		return symbolStatus;
+	}
+
+	public void setSymbolStatus(Integer symbolStatus) {
+		this.symbolStatus = symbolStatus;
 	}
 
 	/* (non-Javadoc)
