@@ -35,7 +35,6 @@ public class Symbol implements java.io.Serializable {
 	private Set<ShapeDescriptor> shapeDescriptors = new HashSet<>(0);
 	private List<Stroke> strokes = new ArrayList<>(0);
 	
-	
 	private Point ltPoint;
 	private Point rbPoint;
 

@@ -13,9 +13,9 @@ import br.usp.ime.escience.expressmatch.model.repository.SymbolRepository;
 import br.usp.ime.escience.expressmatch.service.graph.cost.CostShapeContextSymbolMatch;
 import br.usp.ime.escience.expressmatch.service.graph.cost.ShapeContextCost;
 import br.usp.ime.escience.expressmatch.service.graph.cost.ShapeContextServiceProvider;
-import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierServiceProvider;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierRequest;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierResponse;
+import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierServiceProvider;
 
 @Service
 @Transactional

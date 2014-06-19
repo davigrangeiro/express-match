@@ -25,11 +25,14 @@ public class SymboClassResultsWriter implements ItemWriter<SymbolClass> {
 		
 		for (SymbolClass symbolClass : arg0) {
 			SymbolClass oldSymbolClass = symbolClassRepository.findByLabel(symbolClass.getLabel());
-			symbolClass.setId(oldSymbolClass.getId());
+			
+			if (null != oldSymbolClass) {
+				symbolClass.setId(oldSymbolClass.getId());
+			}
 			
 			symbolClassRepository.save(symbolClass);
 			
-			LOGGER.info(MessageFormat.format("Saved symbol class with id {0} of label {1} ", symbolClass, symbolClass));
+			LOGGER.info(MessageFormat.format("Saved symbol class with id {0} of label {1} ", symbolClass.getId(), symbolClass.getLabel()));
 		}
 		
 	}

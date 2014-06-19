@@ -53,6 +53,7 @@
     </appender>
     
     <appender name="BATCH_ASSYNC" class="org.apache.log4j.AsyncAppender">
+        <appender-ref ref="CONSOLE" />
         <appender-ref ref="EXPRESS_MATCH_BATCH_LOG_FILE" />
     </appender>
  	

@@ -4,7 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -90,7 +90,7 @@ public class SymbolClass implements Serializable{
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "insert_date", nullable = false)
+	@Column(name = "insert_date")
 	public Date getInsertDate() {
 		return insertDate;
 	}

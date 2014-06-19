@@ -36,6 +36,7 @@ public class UserServiceProvider {
 	}
 	
 	public UserInfo getCurrentUser(){
+		UserInfo res = null;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		String name = null;
@@ -46,21 +47,25 @@ public class UserServiceProvider {
 
 		if(null == name){
 			logger.warn("There is no logged user.");
-		}
-		logger.info(MessageFormat.format("Found logged user ({0})", name));
+		} else {
 		
-		UserInfo res = null;
-		res = this.userInfoRepository.getUserInfoByUserNick(name.toLowerCase());
-		
-		if(null == res){
-			logger.warn(MessageFormat.format("User ({0}) not found.", name));
+			logger.info(MessageFormat.format("Found logged user ({0})", name));
+			res = this.userInfoRepository.getUserInfoByUserNick(name.toLowerCase());
+			
+			if(null == res){
+				logger.warn(MessageFormat.format("User ({0}) not found.", name));
+			}
 		}
 		
 		return res;
 	}
 	
 	public UserParameter getUserParameters(UserInfo uInfo){
-		UserParameter res = uInfo.getUserParameter();
+		UserParameter res = null;
+		
+		if (null != uInfo) {
+			res = uInfo.getUserParameter();
+		}
 		
 		if(null == res){
 			res = this.userParameterRepository.getUserParameterByRoot(true);
