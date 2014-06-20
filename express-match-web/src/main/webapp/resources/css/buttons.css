@@ -19,6 +19,26 @@
 	background-color: white;
 }
 
+.applyButton, .applyButton:HOVER, .applyButton:VISITED {
+	background-image: url("../images/Apply.png");
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	border: none;
+	background-color: white;
+}
+
+
+.smallCancelButton, .smallCancelButton:HOVER, .smallCancelButton:VISITED {
+	background-image: url("../images/cancel.png");
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	border: none;
+	background-color: white;
+}
+
+
 .loginButton, .loginButton:HOVER, .loginButton:VISITED {
 	background-image: url("../images/login.png");
 	background-repeat: no-repeat;

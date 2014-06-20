@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
-import br.usp.ime.escience.expressmatch.exception.ExpressMatchExpression;
+import br.usp.ime.escience.expressmatch.exception.ExpressMatchException;
 import br.usp.ime.escience.expressmatch.model.Expression;
 import br.usp.ime.escience.expressmatch.service.expressions.ExpressionServiceProvider;
 import br.usp.ime.escience.expressmatch.utils.StringUtils;
@@ -30,7 +30,7 @@ public class ExpressionsWriter implements ItemWriter<Expression>{
 		
 		try {
 			saveExpressions(arg0);
-		} catch (ExpressMatchExpression e){
+		} catch (ExpressMatchException e){
 			//This error is not blocking, if there is an exception while trying to save a expression, the process carries on.
 			LOGGER.warn("An error occur while attempt to save expressions", e);
 		} catch (Exception e) {
@@ -42,7 +42,7 @@ public class ExpressionsWriter implements ItemWriter<Expression>{
 		
 	}
 
-	private void saveExpressions(List<? extends Expression> arg0) throws ExpressMatchExpression{
+	private void saveExpressions(List<? extends Expression> arg0) throws ExpressMatchException{
 		List<Expression> expressions = new ArrayList<>();
 		expressions.addAll(arg0);
 		

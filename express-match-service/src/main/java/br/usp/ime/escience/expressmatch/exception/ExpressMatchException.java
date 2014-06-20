@@ -1,27 +1,27 @@
 package br.usp.ime.escience.expressmatch.exception;
 
-public class ExpressMatchExpression extends Exception {
+public class ExpressMatchException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public ExpressMatchExpression() {
+	public ExpressMatchException() {
 		super();
 	}
 
-	public ExpressMatchExpression(String message, Throwable cause,
+	public ExpressMatchException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
-	public ExpressMatchExpression(String message, Throwable cause) {
+	public ExpressMatchException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public ExpressMatchExpression(String message) {
+	public ExpressMatchException(String message) {
 		super(message);
 	}
 
-	public ExpressMatchExpression(Throwable cause) {
+	public ExpressMatchException(Throwable cause) {
 		super(cause);
 	}
 

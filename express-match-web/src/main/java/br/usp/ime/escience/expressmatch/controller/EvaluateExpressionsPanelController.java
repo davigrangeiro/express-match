@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.usp.ime.escience.expressmatch.exception.ExpressMatchExpression;
+import br.usp.ime.escience.expressmatch.exception.ExpressMatchException;
 import br.usp.ime.escience.expressmatch.model.Expression;
 import br.usp.ime.escience.expressmatch.model.ExpressionType;
 import br.usp.ime.escience.expressmatch.model.Stroke;
@@ -75,7 +75,7 @@ public class EvaluateExpressionsPanelController implements Serializable{
 				FacesUtils.addMessage("Warning", "You should transcribe the expression before save.", FacesMessage.SEVERITY_WARN);
 			}
 			
-		} catch (ExpressMatchExpression e){
+		} catch (ExpressMatchException e){
 			LOGGER.error(e.getMessage(), e);
 
 			FacesUtils.addMessage("Error", e.getMessage(), FacesMessage.SEVERITY_ERROR);

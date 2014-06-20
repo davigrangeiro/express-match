@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.usp.ime.escience.expressmatch.exception.ExpressMatchExpression;
+import br.usp.ime.escience.expressmatch.exception.ExpressMatchException;
 import br.usp.ime.escience.expressmatch.model.Expression;
 import br.usp.ime.escience.expressmatch.model.ExpressionType;
 import br.usp.ime.escience.expressmatch.model.Point;
@@ -121,7 +121,7 @@ public class ExpressionServiceProvider {
 		return this.expressionRepository.findByExpressionStatus(ExpressionStatusEnum.EXPRESSION_VALIDATED.getValue());
 	}
 
-	public void saveTranscription(Stroke[] strokes, ExpressionType expressionType, User currentUser, Expression userExpression) throws ExpressMatchExpression {
+	public void saveTranscription(Stroke[] strokes, ExpressionType expressionType, User currentUser, Expression userExpression) throws ExpressMatchException {
 		try {
 			
 			Expression e = null;
@@ -171,7 +171,7 @@ public class ExpressionServiceProvider {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(e.getMessage(), e);
-			throw new ExpressMatchExpression(MessageFormat.format("There was an error while saving the transcription of expression type {0}.", expressionType.getId()));
+			throw new ExpressMatchException(MessageFormat.format("There was an error while saving the transcription of expression type {0}.", expressionType.getId()));
 		}
 	}
 

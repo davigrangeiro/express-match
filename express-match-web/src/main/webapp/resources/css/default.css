@@ -6,10 +6,24 @@ body{
 	font-size: 12px;
 }
 
+.redBoldText{
+	font-weight: bold;
+	font-family: sans-serif !important;
+	font-size: 13px;
+	color: red;
+}
+
 .welcome-text{
 	font-weight: bold;
 	font-family: sans-serif !important;
 	font-size: 18px;
+	
+}
+
+.small-warn{
+	font-style:italic;
+	font-family: sans-serif !important;
+	font-size: 10px;
 	
 }
 
@@ -30,8 +44,7 @@ body{
     left: 50%;
     top: 50%;
     width:500px;
-    height:400px;
-    margin-top: -200px;
+    margin-top: -250px;
     margin-left: -250px;
     border: 2px solid;
     background-color: white;

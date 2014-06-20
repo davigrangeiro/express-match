@@ -36,6 +36,11 @@ public class Authorities implements java.io.Serializable {
 		this.authority = authority;
 		this.insertDate = insertDate;
 	}
+	
+	public Authorities(User user, String authority) {
+		this.user = user;
+		this.authority = authority;
+	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
