@@ -1,4 +1,4 @@
-package br.usp.ime.escience.expressmatch.controller.signup;
+package br.usp.ime.escience.expressmatch.service.signup;
 
 import br.usp.ime.escience.expressmatch.model.Institution;
 
@@ -9,7 +9,7 @@ public class SignupVo {
 	private String passRepeat;
 	private Institution institution;
 	private String name;
-	private String nationaity;
+	private String nationality;
 	
 	public String getNick() {
 		return nick;
@@ -35,11 +35,11 @@ public class SignupVo {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getNationaity() {
-		return nationaity;
+	public String getNationality() {
+		return nationality;
 	}
-	public void setNationaity(String nationaity) {
-		this.nationaity = nationaity;
+	public void setNationality(String nationaity) {
+		this.nationality = nationaity;
 	}
 	public String getPassRepeat() {
 		return passRepeat;

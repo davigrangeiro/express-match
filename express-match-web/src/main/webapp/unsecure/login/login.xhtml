@@ -8,15 +8,20 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	
-	<head>
+	<h:head>
  		<title>ExpressMatch: A system to collect mathematical expression samples</title>
 		<link rel="stylesheet" type="text/css" href="/expressMatch/resources/css/default.css"/>
 		<link rel="stylesheet" type="text/css" href="/expressMatch/resources/css/buttons.css"/>
-	</head>
+		
+		<h:outputScript library="javax.faces" name="jsf.js" target="head" />
+		<h:outputScript library="js" name="ajaxFix.js" target="head" />
+		
+	</h:head>
 
     <h:body>
-		
-		
+	 
+	<p:growl id="messages" autoUpdate="true" showDetail="true" life="10000"/>  
+		    		
 	<div class="loginDiv">
 
 		<table style="padding-left: 10px;padding-top: 10px;">
@@ -32,15 +37,15 @@
 			</tr>
 
 			<tr>
-				<td>
+				<td width="300">
 					<form action="expressMatch/j_spring_security_check" method="post">
-					<table>
+					<table width="100%">
 						<tr>
-							<td>
+							<td width="35%">
 								<h:outputLabel for="j_username" value="Username:" />
 							</td>
 							<td>
-					            <h:inputText id="j_username" required="true"/>
+					            <h:inputText id="j_username" style="width: 90%;" required="true"/>
 							</td>
 						</tr>
 						<tr>
@@ -48,7 +53,7 @@
 					            <h:outputLabel for="j_password" value="Password:" />
 							</td>
 							<td>
-					            <h:inputSecret id="j_password" required="true"/>
+					            <h:inputSecret id="j_password" style="width: 90%;" required="true"/>
 							</td>
 						</tr>
 						<tr>
@@ -64,7 +69,7 @@
 				<td>
 					<h:form>
 		            <h:commandButton title="Sign up" styleClass="signupButton" action="#{signUpController.onSignUp}">
-		            	<f:ajax render=":signupDiv"></f:ajax>
+		            	<f:ajax render=":signUpDivID"/>
 		            </h:commandButton>
 		            </h:form>
 				</td>
@@ -72,44 +77,137 @@
 		</table>
 	</div>
 	
-	<h:panelGroup rendered="#{signUpController.signUp}" id="signupDiv">
-		<h:form>
+	<h:panelGroup id="signUpDivID">
+		<h:form rendered="#{signUpController.signUp}">
 			<div class="signupDiv"  style="padding: 20px">
 				<h:outputLabel value="Sign up to Express Match" styleClass="welcome-text"/>
 				<br/><br/>
-				<h:outputText value="Signing up to express match will provide to you access to online mathemathical expression data and You can contribute to our system transcribing mathematical expression models"/>
+				<h:outputText value="Signing up to express match will provide to you access to online mathemathical expression data, moreover you can contribute to our system transcribing mathematical expression models"/>
 				<br/><br/>
 				<h:outputText value="Please, give the informations above and register in express match." />
 				
-				<h:panelGrid columns="2" style="width:100%;">
-				
-		            <h:outputLabel for="nick" value="Nick:" />
-		            <h:inputText id="nick" required="true" style="width: 100%;" value="#{signUpController.signupData.nick}"/>
-		            
-		            <h:outputLabel for="name" value="Name:" />
-		            <h:inputText id="name" required="true" style="width: 100%;" value="#{signUpController.signupData.name}"/>
+				<table style="width:100%;">
 					
-		            <h:outputLabel for="pass" value="Password:" />
-		            <h:inputSecret id="pass" required="true" style="width: 100%;" value="#{signUpController.signupData.pass}"/>
-		            
-		            <h:outputLabel for="repPass" value="Retype password:" />
-		            <h:inputSecret id="repPass" required="true" style="width: 100%;" value="#{signUpController.signupData.passRepeat}"/>
-		            
-		            <h:outputLabel for="nationality" value="Nationality:" />
-		            <h:inputText id="nationality" required="true" style="width: 100%;" value="#{signUpController.signupData.nationaity}"/>
-		            
-		            <h:outputLabel for="instituition" value="Instituition:" />
-		            <h:inputText id="instituition" required="true" style="width: 100%;" value="#{signUpController.signupData.institution.name}"/>
-		            
-		            <h:outputText value=" "/>
-		            
-		            <h:commandButton title="Register" value="Register" action="#{signUpController.onRegister}" />
-		            
-				</h:panelGrid>
+					<tr>
+						<td>		            
+							<h:outputLabel for="username" value="Username:" />
+		            	</td>
+		            	<td>
+							<h:outputText styleClass="redBoldText" value="  *  "/>
+			            	<h:inputText id="username" style="width: 90%;" value="#{signUpController.signupData.nick}"/>
+		            	</td>
+					</tr>
+					<tr>
+						<td>
+							<h:panelGroup>
+				            	<h:outputLabel for="name" value="Name:" />
+				            	<h:outputLabel value="(complete name)" styleClass="small-warn"/>
+				            </h:panelGroup>
+		            	</td>
+		            	<td>
+							<h:outputText styleClass="redBoldText" value="  *  "/>
+			           		<h:inputText id="name" style="width: 90%;" value="#{signUpController.signupData.name}"/>
+		            	</td>
+					</tr>
+					<tr>
+						<td>
+		            		<h:outputLabel for="pass" value="Password:" />
+		            	</td>
+						<td>
+							<h:outputText styleClass="redBoldText" value="  *  "/>
+		            		<h:inputSecret id="pass" style="width: 90%;" value="#{signUpController.signupData.pass}"/>
+		            	</td>
+					</tr>
+					<tr>
+						<td>
+		            		<h:outputLabel for="repPass" value="Retype password:" />
+		            	</td>
+						<td>
+							<h:outputText styleClass="redBoldText" value="  *  "/>
+		            		<h:inputSecret id="repPass" style="width: 90%;" value="#{signUpController.signupData.passRepeat}"/>
+		            	</td>
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel for="nationality" value="Nationality:" />
+		            	</td>
+						<td>
+							<h:outputText styleClass="redBoldText" value="  *  "/>
+							<h:inputText id="nationality" style="width: 90%;" value="#{signUpController.signupData.nationality}"/>
+		            	</td>
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel for="institutionSelectMenu" value="Institution:" />
+		            	</td>
+						<td>
+							<h:outputText styleClass="redBoldText" value="  *  "/>
+					   		<h:selectOneMenu value="#{signUpController.newInstitution.id}" id="institutionSelectMenu" style="width: 90%;">
+					   			<f:selectItem itemValue="-1" itemLabel="Select ..." />
+   								<f:selectItem itemValue="-2" itemLabel="New institution ..." />
+					   			<f:selectItems value="#{signUpController.institutions}" var="inst" itemValue="#{inst.id}" itemLabel="#{inst.acronym} - #{inst.name}"/>
+					   			<f:ajax render="newInstitutionPanel" execute="@this"/>
+					   		</h:selectOneMenu>
+		            	</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+				            <h:panelGroup id="newInstitutionPanel">
+							<h:panelGroup rendered="#{signUpController.newInstitution.id == -2}" >
+							<fieldset style="border-radius: 10px; border: 1px solid;" >
+								<legend>New institution</legend>
+								<table width="100%">
+									<tr>
+										<td width="35%">
+											<h:outputLabel for="inst_acronym" value="Institution acronym:" />
+										</td>
+										<td>
+											<h:outputText styleClass="redBoldText" value="  *  "/>
+											<h:inputText id="inst_acronym" value="#{signUpController.newInstitution.acronym}"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<h:outputLabel for="inst_name" value="Institution name:" />
+										</td>
+										<td>
+											<h:outputText styleClass="redBoldText" value="  *  "/>
+											<h:inputText id="inst_name" style="width: 90%;" value="#{signUpController.newInstitution.name}"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<h:outputLabel for="inst_nationality" value="Institution nationality:" />	
+										</td>
+										<td>
+											<h:outputText styleClass="redBoldText" value="  *  "/>
+											<h:inputText id="inst_nationality" style="width: 90%;" value="#{signUpController.newInstitution.nationality}"/>
+										</td>
+									</tr>
+								</table>
+							</fieldset>
+							</h:panelGroup>
+							</h:panelGroup>
+		            	</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+				            <h:panelGroup>
+				            	<center>
+					            	<h:commandButton title="Register" value="Register" action="#{signUpController.onRegister}" />
+					            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					            	<h:commandButton title="Cancel" value="Cancel" immediate="true" action="#{signUpController.onRegisterCancel}" >
+					            		<f:ajax render=":signUpDivID"/>
+					            	</h:commandButton>
+				            	</center>
+				            </h:panelGroup>
+		            	</td>
+					</tr>
+			</table>
+
 			</div>
 		</h:form>
 	</h:panelGroup>
-		
     </h:body>
  
 </html>
