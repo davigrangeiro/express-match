@@ -1,6 +1,7 @@
 package br.usp.ime.escience.expressmatch.service.signup;
 
 import java.io.Serializable;
+
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
