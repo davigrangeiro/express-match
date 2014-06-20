@@ -11,22 +11,104 @@
 	<head>
  		<title>ExpressMatch: A system to collect mathematical expression samples</title>
 		<link rel="stylesheet" type="text/css" href="/expressMatch/resources/css/default.css"/>
+		<link rel="stylesheet" type="text/css" href="/expressMatch/resources/css/buttons.css"/>
 	</head>
 
     <h:body>
 		
-		<form action="expressMatch/j_spring_security_check" method="post">
-			<div class="loginDiv">
-		    <h:panelGrid columns="2" cellpadding="5">
-                   <h:outputLabel for="j_username" value="Username:" />
-                   <h:inputText id="j_username" required="true"/>	
-                   <h:outputLabel for="j_password" value="Password:" />
-                   <h:inputSecret id="j_password" required="true"/>
-                   <h:commandButton value="Log in" />
-                   <h:commandButton value="Sign up" />
-            </h:panelGrid>
-            </div>
-		</form>
+		
+	<div class="loginDiv">
+
+		<table style="padding-left: 10px;padding-top: 10px;">
+			<tr>
+				<td colspan="2">
+					<h:outputLabel value="Welcome to Express Match" styleClass="welcome-text"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<h:outputLabel value="Sign in or Sign Up to use Express Match" />
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<form action="expressMatch/j_spring_security_check" method="post">
+					<table>
+						<tr>
+							<td>
+								<h:outputLabel for="j_username" value="Username:" />
+							</td>
+							<td>
+					            <h:inputText id="j_username" required="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+					            <h:outputLabel for="j_password" value="Password:" />
+							</td>
+							<td>
+					            <h:inputSecret id="j_password" required="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+					            <h:commandButton title="Log in" styleClass="loginButton"/>
+							</td>
+						</tr>
+					</table>
+					</form>
+				</td>
+				<td>
+					<h:form>
+		            <h:commandButton title="Sign up" styleClass="signupButton" action="#{signUpController.onSignUp}">
+		            	<f:ajax render=":signupDiv"></f:ajax>
+		            </h:commandButton>
+		            </h:form>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<h:panelGroup rendered="#{signUpController.signUp}" id="signupDiv">
+		<h:form>
+			<div class="signupDiv"  style="padding: 20px">
+				<h:outputLabel value="Sign up to Express Match" styleClass="welcome-text"/>
+				<br/><br/>
+				<h:outputText value="Signing up to express match will provide to you access to online mathemathical expression data and You can contribute to our system transcribing mathematical expression models"/>
+				<br/><br/>
+				<h:outputText value="Please, give the informations above and register in express match." />
+				
+				<h:panelGrid columns="2" style="width:100%;">
+				
+		            <h:outputLabel for="nick" value="Nick:" />
+		            <h:inputText id="nick" required="true" style="width: 100%;" value="#{signUpController.signupData.nick}"/>
+		            
+		            <h:outputLabel for="name" value="Name:" />
+		            <h:inputText id="name" required="true" style="width: 100%;" value="#{signUpController.signupData.name}"/>
+					
+		            <h:outputLabel for="pass" value="Password:" />
+		            <h:inputSecret id="pass" required="true" style="width: 100%;" value="#{signUpController.signupData.pass}"/>
+		            
+		            <h:outputLabel for="repPass" value="Retype password:" />
+		            <h:inputSecret id="repPass" required="true" style="width: 100%;" value="#{signUpController.signupData.passRepeat}"/>
+		            
+		            <h:outputLabel for="nationality" value="Nationality:" />
+		            <h:inputText id="nationality" required="true" style="width: 100%;" value="#{signUpController.signupData.nationaity}"/>
+		            
+		            <h:outputLabel for="instituition" value="Instituition:" />
+		            <h:inputText id="instituition" required="true" style="width: 100%;" value="#{signUpController.signupData.institution.name}"/>
+		            
+		            <h:outputText value=" "/>
+		            
+		            <h:commandButton title="Register" value="Register" action="#{signUpController.onRegister}" />
+		            
+				</h:panelGrid>
+			</div>
+		</h:form>
+	</h:panelGroup>
 		
     </h:body>
  

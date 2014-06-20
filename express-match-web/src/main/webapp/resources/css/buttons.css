@@ -1,4 +1,34 @@
 
+.signupButton, .signupButton:HOVER, .signupButton:VISITED {
+	background-image: url("../images/signup.png");
+	background-repeat: no-repeat;
+	width: 125px;
+	height: 125px;
+	background-size: 125px 125px;
+	border: none;
+	background-color: white;
+}
+
+.smallSignupButton, .smallSignupButton:HOVER, .smallSignupButton:VISITED {
+	background-image: url("../images/signup.png");
+	background-repeat: no-repeat;
+	width: 60px;
+	height: 60px;
+	background-size: 60px 60px;
+	border: none;
+	background-color: white;
+}
+
+.loginButton, .loginButton:HOVER, .loginButton:VISITED {
+	background-image: url("../images/login.png");
+	background-repeat: no-repeat;
+	width: 48px;
+	height: 48px;
+	background-size: 48px 48px;
+	border: none;
+	background-color: white;
+}
+
 .clearButton, .clearButton:HOVER, .clearButton:VISITED {
 	background-image: url("#{resource['images/btn-clear.png']}");
 	background-repeat: no-repeat;

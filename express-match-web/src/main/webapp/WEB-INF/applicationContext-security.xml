@@ -15,6 +15,10 @@
         <!-- Don't set any role restrictions on login -->
         <intercept-url pattern="/unsecure/login/login.faces" 
         			   access="permitAll"/>
+
+        <!-- Don't set any role restrictions on login -->
+        <intercept-url pattern="/" 
+        			   access="permitAll"/>
         			   
         <!-- Don't set any role restrictions on unsecure section -->
         <intercept-url pattern="/unsecure/**" 
