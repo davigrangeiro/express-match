@@ -68,7 +68,7 @@ public class SignUpController implements Serializable {
 			FacesUtils.addEmptyFieldMessage("Username");
 		} else if (!this.signUpServiceProvider.isValidNickName(signupData.getNick())) {
 			res = false;
-			FacesUtils.addMessage("Username already registred", "The entered username have already been registered, please choose another one.", FacesMessage.SEVERITY_WARN);
+			FacesUtils.addMessage("Username already registred", "The entered username has already been registered, please choose another one.", FacesMessage.SEVERITY_WARN);
 		}
 		
 		if(signupData.getName() == null || signupData.getName().isEmpty()){
@@ -79,12 +79,16 @@ public class SignUpController implements Serializable {
 			res = false;
 			FacesUtils.addEmptyFieldMessage("Email");
 		}
+		if(signupData.getEmail() == null || signupData.getEmail().isEmpty()){
+			res = false;
+			FacesUtils.addEmptyFieldMessage("Email");
+		}
 		if(signupData.getPass() == null || signupData.getPass().isEmpty()){
 			res = false;
 			FacesUtils.addEmptyFieldMessage("Password");
 		} else if (signupData.getPass().length() < 8) {
 			res = false;
-			FacesUtils.addMessage("Password Error", "The entered password shold have more than 8 characters", FacesMessage.SEVERITY_WARN);
+			FacesUtils.addMessage("Password Error", "The entered password shold be longer than 8 characters", FacesMessage.SEVERITY_WARN);
 		}
 		if(signupData.getPassRepeat() == null || signupData.getPassRepeat().isEmpty()){
 			res = false;
