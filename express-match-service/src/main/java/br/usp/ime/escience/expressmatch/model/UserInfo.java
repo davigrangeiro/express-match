@@ -26,6 +26,7 @@ public class UserInfo implements java.io.Serializable {
 	private Institution institution;
 	private String name;
 	private String nationaity;
+	private String email;
 	private UserParameter userParameter;
 	private Set<Expression> expressions = new HashSet<>(0);
 
@@ -93,6 +94,15 @@ public class UserInfo implements java.io.Serializable {
 
 	public void setNationaity(String nationaity) {
 		this.nationaity = nationaity;
+	}
+	
+	@Column(name = "email", nullable=false)
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userInfo")

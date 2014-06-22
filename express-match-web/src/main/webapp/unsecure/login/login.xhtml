@@ -21,7 +21,9 @@
     <h:body>
 	 
 	<p:growl id="messages" autoUpdate="true" showDetail="true" life="10000"/>  
-		    		
+		    	
+	<div class="divLogo"/>
+		
 	<div class="loginDiv">
 
 		<table style="padding-left: 10px;padding-top: 10px;">
@@ -68,17 +70,15 @@
 				</td>
 				<td>
 					<h:form>
-		            <h:commandButton title="Sign up" styleClass="signupButton" action="#{signUpController.onSignUp}">
-		            	<f:ajax render=":signUpDivID"/>
-		            </h:commandButton>
+		            	<h:commandButton title="Sign up" styleClass="signupButton" type="button" onclick="signUpDiv.show();"/>
 		            </h:form>
 				</td>
 			</tr>
 		</table>
 	</div>
 	
-	<h:panelGroup id="signUpDivID">
-		<h:form rendered="#{signUpController.signUp}">
+	<p:dialog id="signUpDivID" closable="true" closeOnEscape="true" draggable="true" modal="true" resizable="false" widgetVar="signUpDiv">
+		<h:form>
 			<div class="signupDiv"  style="padding: 20px">
 				<h:outputLabel value="Sign up to Express Match" styleClass="welcome-text"/>
 				<br/><br/>
@@ -107,6 +107,17 @@
 		            	<td>
 							<h:outputText styleClass="redBoldText" value="  *  "/>
 			           		<h:inputText id="name" style="width: 90%;" value="#{signUpController.signupData.name}"/>
+		            	</td>
+					</tr>
+					<tr>
+						<td>
+							<h:panelGroup>
+				            	<h:outputLabel for="email" value="Email:" />
+				            </h:panelGroup>
+		            	</td>
+		            	<td>
+							<h:outputText styleClass="redBoldText" value="  *  "/>
+			           		<h:inputText id="email" style="width: 90%;" value="#{signUpController.signupData.email}"/>
 		            	</td>
 					</tr>
 					<tr>
@@ -158,6 +169,11 @@
 								<legend>New institution</legend>
 								<table width="100%">
 									<tr>
+										<td colspan="2">
+											<h:outputText  styleClass="small-warn" value="Please, be sure your institution is not listed above before adding a new one."/>
+										</td>
+									</tr>
+									<tr>
 										<td width="35%">
 											<h:outputLabel for="inst_acronym" value="Institution acronym:" />
 										</td>
@@ -194,11 +210,11 @@
 						<td colspan="2">
 				            <h:panelGroup>
 				            	<center>
-					            	<h:commandButton title="Register" value="Register" action="#{signUpController.onRegister}" />
-					            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					            	<h:commandButton title="Cancel" value="Cancel" immediate="true" action="#{signUpController.onRegisterCancel}" >
-					            		<f:ajax render=":signUpDivID"/>
+					            	<h:commandButton title="Register" value="Register" action="#{signUpController.onRegister}">
+					            		<f:ajax execute="@form"/>
 					            	</h:commandButton>
+					            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					            	<h:commandButton title="Cancel" value="Cancel" type="button" onclick="signUpDiv.hide();" />
 				            	</center>
 				            </h:panelGroup>
 		            	</td>
@@ -207,7 +223,7 @@
 
 			</div>
 		</h:form>
-	</h:panelGroup>
+	</p:dialog>
     </h:body>
  
 </html>

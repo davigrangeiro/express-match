@@ -6,6 +6,7 @@ public class SignupVo {
 
 	private String nick;
 	private String pass;
+	private String email;
 	private String passRepeat;
 	private Institution institution;
 	private String name;
@@ -46,6 +47,12 @@ public class SignupVo {
 	}
 	public void setPassRepeat(String passRepeat) {
 		this.passRepeat = passRepeat;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 }

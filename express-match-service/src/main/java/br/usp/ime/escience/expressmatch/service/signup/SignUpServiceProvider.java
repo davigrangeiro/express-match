@@ -1,7 +1,6 @@
 package br.usp.ime.escience.expressmatch.service.signup;
 
 import java.io.Serializable;
-
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,12 @@ import br.usp.ime.escience.expressmatch.model.UserInfo;
 import br.usp.ime.escience.expressmatch.model.repository.InstitutionRepository;
 import br.usp.ime.escience.expressmatch.model.repository.UserInfoRepository;
 import br.usp.ime.escience.expressmatch.model.repository.UserRepository;
+import br.usp.ime.escience.expressmatch.model.user.roles.UserRolesEnum;
 
 @Service
 public class SignUpServiceProvider implements Serializable{
+
+	private static final int NEW_INSTITUTION = -2;
 
 	private static final long serialVersionUID = 1L;
 	
@@ -36,7 +38,7 @@ public class SignUpServiceProvider implements Serializable{
 		User user = new User();
 		UserInfo userInfo = new UserInfo();
 		
-		if(institution.getId() == -2) {
+		if(institution.getId() == NEW_INSTITUTION) {
 			institution.setId(null);
 			institutionRepository.save(institution);
 		} else {
@@ -48,19 +50,22 @@ public class SignUpServiceProvider implements Serializable{
 		userInfo.setNationaity(vo.getNationality());
 		userInfo.setUser(user);
 
-		Authorities authorities = new Authorities(user, "ROLE_USER");
+		Authorities authorities = new Authorities(user, UserRolesEnum.USER.getValue());
 		
 		user.setNick(vo.getNick());
 		user.setEnabled(true);
-		user.setPass(getPassowEncoder().encodePassword("admin", null));
-		user.setUserInfo(userInfo);
-		
+		user.setPass(getPassowEncoder().encodePassword(vo.getPass(), null));
+
 		user.setAuthoritieses(new HashSet<Authorities>());
 		user.getAuthoritieses().add(authorities);
 		
 		try{
 			userRepository.save(user);
+			
+			userInfo.setId(user.getId());
+			userInfoRepository.save(userInfo);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ExpressMatchException("There was errors while attempting to save new user", e);
 		}
 	}

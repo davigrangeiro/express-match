@@ -31,8 +31,6 @@ public class SignUpController implements Serializable {
 	@Autowired
 	private SignUpServiceProvider signUpServiceProvider;
 	
-	private boolean signUp;
-	
 	private List<Institution> institutions;
 	
 	private Institution newInstitution;
@@ -44,14 +42,8 @@ public class SignUpController implements Serializable {
 		if(null == institutions){
 			this.institutions = institutionServiceProvider.getAllInstitutions();
 			this.newInstitution = new Institution();
-			this.signUp = false;
 			this.signupData = new SignupVo();
 		}
-	}
-
-	public String onSignUp() {
-		signUp = true;
-		return "";
 	}
 
 	public String onRegister() {
@@ -59,12 +51,11 @@ public class SignUpController implements Serializable {
 			
 			try {
 				this.signUpServiceProvider.register(signupData, newInstitution);
+				FacesUtils.addMessage("Success", "You've been successfully registered, please sign in.", null);
 			} catch (ExpressMatchException e) {
 				FacesUtils.addMessage(e);
 			}
 			
-			FacesUtils.addMessage("Success", "You've been successfully registered, please sign in.", null);
-			this.signUp = false;
 		}
 		return "";
 	}
@@ -83,6 +74,10 @@ public class SignUpController implements Serializable {
 		if(signupData.getName() == null || signupData.getName().isEmpty()){
 			res = false;
 			FacesUtils.addEmptyFieldMessage("Name");
+		}
+		if(signupData.getEmail() == null || signupData.getEmail().isEmpty()){
+			res = false;
+			FacesUtils.addEmptyFieldMessage("Email");
 		}
 		if(signupData.getPass() == null || signupData.getPass().isEmpty()){
 			res = false;
@@ -112,6 +107,7 @@ public class SignUpController implements Serializable {
 				res = false;
 				FacesUtils.addEmptyFieldMessage("Institution Acronym");
 			}
+			
 			if(newInstitution.getName() == null || newInstitution.getName().isEmpty()){
 				res = false;
 				FacesUtils.addEmptyFieldMessage("Institution Name");
@@ -125,20 +121,6 @@ public class SignUpController implements Serializable {
 		return res;
 	}
 	
-	
-	public String onRegisterCancel() {
-		signUp = false;
-		return "";
-	}
-
-	public boolean isSignUp() {
-		return signUp;
-	}
-
-	public void setSignUp(boolean signUp) {
-		this.signUp = signUp;
-	}
-
 	public SignupVo getSignupData() {
 		return signupData;
 	}
