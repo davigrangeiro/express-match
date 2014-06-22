@@ -73,7 +73,7 @@ public class Authorities implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "insert_date", nullable = false, length = 19)
+	@Column(name = "insert_date", length = 19)
 	public Date getInsertDate() {
 		return this.insertDate;
 	}

@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -94,7 +95,7 @@ public class User implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "insert_date", nullable = false, length = 19)
+	@Column(name = "insert_date", length = 19)
 	public Date getInsertDate() {
 		return this.insertDate;
 	}
@@ -103,7 +104,7 @@ public class User implements java.io.Serializable {
 		this.insertDate = insertDate;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade=CascadeType.ALL)
 	public UserInfo getUserInfo() {
 		return this.userInfo;
 	}
@@ -112,7 +113,7 @@ public class User implements java.io.Serializable {
 		this.userInfo = userInfo;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade=CascadeType.ALL)
 	public Set<Authorities> getAuthoritieses() {
 		return this.authoritieses;
 	}
@@ -128,8 +129,6 @@ public class User implements java.io.Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((authoritieses == null) ? 0 : authoritieses.hashCode());
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result

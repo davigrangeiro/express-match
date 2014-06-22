@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.usp.ime.escience.expressmatch.model.Expression;
 
+@Transactional
 public interface ExpressionRepository extends JpaRepository<Expression, Integer>{
 
 	
