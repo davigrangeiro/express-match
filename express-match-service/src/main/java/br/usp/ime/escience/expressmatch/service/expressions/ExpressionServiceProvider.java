@@ -22,6 +22,7 @@ import br.usp.ime.escience.expressmatch.model.repository.ExpressionTypeRepositor
 import br.usp.ime.escience.expressmatch.model.repository.SymbolRepository;
 import br.usp.ime.escience.expressmatch.model.repository.UserInfoRepository;
 import br.usp.ime.escience.expressmatch.model.status.ExpressionStatusEnum;
+import br.usp.ime.escience.expressmatch.model.status.SymbolStatusEnum;
 
 @Service
 @Transactional
@@ -130,16 +131,19 @@ public class ExpressionServiceProvider {
 			} else {
 				e = new Expression();
 			}
+			
 			cleanExpressionData(e);
 			
 			e.setExpressionType(this.expressionTypeRepository.findOne(expressionType.getId()));
 			e.setLabel(NOT_EVALUATED_YET);
+			e.setExpressionStatus(ExpressionStatusEnum.EXPRESSION_TRANSCRIBED.getValue());
 			e.setUserInfo(this.userInfoRepository.getUserInfoByUserNick(currentUser.getNick()));
 			e.setSymbols(new ArrayList<Symbol>());
 			
 			Symbol s = new Symbol();
 			s.setHref(NOT_EVALUATED_YET);
 			s.setExpression(e);
+			s.setSymbolStatus(SymbolStatusEnum.SYMBOL_TRANSCRIBED.getValue());
 			s.setLabel(NOT_EVALUATED_YET);
 			s.setStrokes(new ArrayList<Stroke>());
 			
@@ -169,7 +173,6 @@ public class ExpressionServiceProvider {
 			logger.info(MessageFormat.format("Saved expression with id {0}", e.getId()));
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error(e.getMessage(), e);
 			throw new ExpressMatchException(MessageFormat.format("There was an error while saving the transcription of expression type {0}.", expressionType.getId()));
 		}

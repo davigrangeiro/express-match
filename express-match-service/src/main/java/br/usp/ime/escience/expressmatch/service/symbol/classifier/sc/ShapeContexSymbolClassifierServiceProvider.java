@@ -15,11 +15,11 @@ import br.usp.ime.escience.expressmatch.service.graph.cost.ShapeContextCost;
 import br.usp.ime.escience.expressmatch.service.graph.cost.ShapeContextServiceProvider;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierRequest;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierResponse;
-import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierServiceProvider;
+import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierService;
 
 @Service
 @Transactional
-public class ShapeContexSymbolClassifier implements SymbolClassifierServiceProvider {
+public class ShapeContexSymbolClassifierServiceProvider implements SymbolClassifierService {
 
 	@Autowired
 	private ShapeContextServiceProvider shapeContextServiceProvider;

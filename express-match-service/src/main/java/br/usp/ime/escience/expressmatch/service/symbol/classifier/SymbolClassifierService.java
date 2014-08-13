@@ -6,7 +6,7 @@ import br.usp.ime.escience.expressmatch.model.Stroke;
 import br.usp.ime.escience.expressmatch.model.Symbol;
 
 
-public interface SymbolClassifierServiceProvider {
+public interface SymbolClassifierService {
 
 	SymbolClassifierResponse matchTranscription(SymbolClassifierRequest<List<Stroke>> request);
 	

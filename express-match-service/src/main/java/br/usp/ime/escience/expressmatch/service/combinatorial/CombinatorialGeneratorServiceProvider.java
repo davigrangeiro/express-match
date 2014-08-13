@@ -1,16 +1,54 @@
 package br.usp.ime.escience.expressmatch.service.combinatorial;
 
-import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
 
-import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierServiceProvider;
+import org.apache.commons.lang3.ArrayUtils;
+
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierRequest;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierResponse;
+import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierService;
 
-@Service
+/**
+ * The Class CombinatorialGeneratorServiceProvider.
+ * 
+ * @author Davi Grangeiro
+ */
 public class CombinatorialGeneratorServiceProvider{
-
 	
-	public void generatePermutations(int[] permutation, int i, int j, int[] values, SymbolClassifierServiceProvider symbolClassifier){
+	/** The response. */
+	List<SymbolClassifierResponse> response;
+	
+	/**
+	 * Gets the permutations result.
+	 * 
+	 * @param values the values
+	 * @param permutationSize the permutation size
+	 * @param symbolClassifier the symbol classifier
+	 * @return the permutations result
+	 */
+	public List<SymbolClassifierResponse> getPermutationsResult(int[] values, int permutationSize, SymbolClassifierService symbolClassifier){
+		
+		//cleanning response before returning the list of responses
+		this.response = new ArrayList<>();
+
+		int[] permutationArray = new int[permutationSize];
+		generatePermutations(permutationArray, 0, 0, values, symbolClassifier);
+		
+		return this.response;
+	}
+	
+	
+	/**
+	 * Generate permutations.
+	 *
+	 * @param permutation the permutation
+	 * @param i the i
+	 * @param j the j
+	 * @param values the values
+	 * @param symbolClassifier the symbol classifier
+	 */
+	private void generatePermutations(int[] permutation, int i, int j, int[] values, SymbolClassifierService symbolClassifier){
 		if (i < permutation.length) {
 			
 			for (int k = j ; k < values.length; k++) {
@@ -22,21 +60,15 @@ public class CombinatorialGeneratorServiceProvider{
 			//Permutation found.
 			
 			SymbolClassifierRequest request = new SymbolClassifierRequest();
-			SymbolClassifierResponse response = null;
+			SymbolClassifierResponse res = symbolClassifier.matchTranscription(request);
+			res.setPermutation(ArrayUtils.clone(permutation));
 			
-			response = symbolClassifier.matchTranscription(request);
+			this.response.add(res);
 		}
 	}
 	
 	
-//	private static Integer[] copy(int[] array){
-//		Integer[] res = new Integer[array.length];
-//		
-//		for (int i = 0; i < array.length; i++) {
-//			res[i] = Integer.valueOf(array[i]);
-//		}
-//		return res;
-//	}
+
 	
 //	public static void main(String[] args) throws InterruptedException {
 //		List results = new ArrayList<>();
@@ -59,13 +91,13 @@ public class CombinatorialGeneratorServiceProvider{
 ////		}
 //		
 //	}
-
-	public String printPermutation(int[] i) {
-		StringBuilder s = new StringBuilder();
-		for (int aux : i) {
-			s.append(aux + " ");
-		}
-		return s.toString();
-	}
+//
+//	public String printPermutation(int[] i) {
+//		StringBuilder s = new StringBuilder();
+//		for (int aux : i) {
+//			s.append(aux + " ");
+//		}
+//		return s.toString();
+//	}
 	
 }

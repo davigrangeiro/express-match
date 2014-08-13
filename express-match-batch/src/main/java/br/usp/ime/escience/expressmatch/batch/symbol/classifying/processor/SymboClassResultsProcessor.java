@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import br.usp.ime.escience.expressmatch.model.Symbol;
 import br.usp.ime.escience.expressmatch.model.SymbolClass;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierRequest;
-import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierServiceProvider;
+import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierService;
 import br.usp.ime.escience.expressmatch.utils.statistics.MeanAndStandardDeviationResponse;
 import br.usp.ime.escience.expressmatch.utils.statistics.StatisticsUtil;
 
@@ -26,7 +26,7 @@ public class SymboClassResultsProcessor implements ItemProcessor<List<Symbol>, S
 
 	@Autowired
 	@Qualifier("shapeContexSymbolClassifier")
-	private SymbolClassifierServiceProvider symbolClassifier;
+	private SymbolClassifierService symbolClassifier;
 	
 	@Override
 	public SymbolClass process(List<Symbol> arg0) throws Exception {

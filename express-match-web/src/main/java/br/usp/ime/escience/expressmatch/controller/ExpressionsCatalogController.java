@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import br.usp.ime.escience.expressmatch.model.Expression;
 import br.usp.ime.escience.expressmatch.model.ExpressionType;
 import br.usp.ime.escience.expressmatch.model.Stroke;
+import br.usp.ime.escience.expressmatch.model.Symbol;
 import br.usp.ime.escience.expressmatch.service.expressions.ExpressionServiceProvider;
 import br.usp.ime.escience.expressmatch.service.json.StrokeJSONParser;
 import br.usp.ime.escience.expressmatch.utils.FacesUtils;
@@ -45,6 +46,7 @@ public class ExpressionsCatalogController implements Serializable{
 	private List<ExpressionType> types;
 	
 	private int eTypeIndex = 0;
+	
 
 	public ExpressionsCatalogController() {
 		super();
@@ -58,9 +60,12 @@ public class ExpressionsCatalogController implements Serializable{
 	
 	public void init() {
 		FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-		types = this.expressionServiceProvider.loadExpressionTypes();
 		
-		eTypeIndex = 0;
+		if (null == types) {
+			types = this.expressionServiceProvider.loadExpressionTypes();
+			eTypeIndex = 0;
+		}
+		
 		loadExpressionType(eTypeIndex);
 	}
 
@@ -78,7 +83,7 @@ public class ExpressionsCatalogController implements Serializable{
 			assembleExpressionDataTree(this.expression);
 			
 		} else {
-			FacesUtils.addMessage("Warning", "There is no model expressions to be transcribed", FacesMessage.SEVERITY_WARN);
+			FacesUtils.addMessage("Warning", "There is no model expressions recorded in the system", FacesMessage.SEVERITY_WARN);
 		}
 	}
 
@@ -141,19 +146,19 @@ public class ExpressionsCatalogController implements Serializable{
 	private Stroke[] getStrokesForExpression(Expression type) {
 		Stroke[] modelStrokes = null;
 		
-//		int strokeAmount = 0;
-//		for (Symbol symbol : type.getSymbols()) {
-//			strokeAmount += symbol.getStrokes().size();
-//		}
-//		
-//		modelStrokes = new Stroke[strokeAmount];
-//		int i = 0;
-//		
-//		for (Symbol symbol : type.getSymbols()) {
-//			for (Stroke stroke : symbol.getStrokes()) {
-//				modelStrokes[i++] = new Stroke(stroke);
-//			}
-//		}
+		int strokeAmount = 0;
+		for (Symbol symbol : type.getSymbols()) {
+			strokeAmount += symbol.getStrokes().size();
+		}
+		
+		modelStrokes = new Stroke[strokeAmount];
+		int i = 0;
+		
+		for (Symbol symbol : type.getSymbols()) {
+			for (Stroke stroke : symbol.getStrokes()) {
+				modelStrokes[i++] = new Stroke(stroke);
+			}
+		}
 		return modelStrokes;
 	}
 

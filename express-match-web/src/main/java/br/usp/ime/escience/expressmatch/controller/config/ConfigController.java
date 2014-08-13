@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.usp.ime.escience.expressmatch.service.expressions.importable.InkmlImportServiceProvider;
-import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierServiceProvider;
+import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierService;
 
 @Component
 @ManagedBean
@@ -26,7 +26,7 @@ public class ConfigController implements Serializable{
 	private InkmlImportServiceProvider importServiceProvider;
 	
 	@Autowired
-	private SymbolClassifierServiceProvider symbolClassifier;
+	private SymbolClassifierService symbolClassifier;
 	
 	public String importDataBase(){
 		logger.debug("Starting dataset import");
