@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.stereotype.Service;
 
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierRequest;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierResponse;
@@ -14,6 +15,7 @@ import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifi
  * 
  * @author Davi Grangeiro
  */
+@Service
 public class CombinatorialGeneratorServiceProvider{
 	
 	/** The response. */

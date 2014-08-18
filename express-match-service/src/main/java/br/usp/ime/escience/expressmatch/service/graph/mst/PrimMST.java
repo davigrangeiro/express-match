@@ -11,8 +11,8 @@ import br.usp.ime.escience.expressmatch.model.graph.Vertex;
 import br.usp.ime.escience.expressmatch.service.graph.cost.Cost;
 import br.usp.ime.escience.expressmatch.service.graph.cost.EuclideanDistance;
 import br.usp.ime.escience.expressmatch.service.graph.mst.general.Candidate;
-import br.usp.ime.escience.expressmatch.service.graph.mst.general.CompleteGraphBuilder;
 import br.usp.ime.escience.expressmatch.service.graph.mst.general.MinimumSpanningTree;
+import br.usp.ime.escience.expressmatch.service.graph.utils.CompleteGraphBuilder;
 
 public class PrimMST implements MinimumSpanningTree {
 

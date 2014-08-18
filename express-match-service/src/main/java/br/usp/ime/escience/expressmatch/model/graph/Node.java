@@ -9,6 +9,8 @@ public class Node extends Vertex {
 	private List<Node> next;
 	private Node previous;
 	private int nodeId;
+	private boolean visited;
+	private boolean accepted;
 	
 	public Node(int id, double x, double y) {
 		super(id, x, y);
@@ -50,6 +52,22 @@ public class Node extends Vertex {
 
 	public void setNodeId(int nodeId) {
 		this.nodeId = nodeId;
+	}
+
+	public boolean isVisited() {
+		return visited;
+	}
+
+	public void setVisited(boolean visited) {
+		this.visited = visited;
+	}
+
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
 	}
 
 }

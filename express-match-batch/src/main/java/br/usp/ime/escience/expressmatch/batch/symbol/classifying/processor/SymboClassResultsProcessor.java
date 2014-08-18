@@ -25,7 +25,7 @@ public class SymboClassResultsProcessor implements ItemProcessor<List<Symbol>, S
 	private static final Logger LOGGER = LoggerFactory.getLogger(SymboClassResultsProcessor.class);
 
 	@Autowired
-	@Qualifier("shapeContexSymbolClassifier")
+	@Qualifier("shapeContexSymbolClassifierServiceProvider")
 	private SymbolClassifierService symbolClassifier;
 	
 	@Override

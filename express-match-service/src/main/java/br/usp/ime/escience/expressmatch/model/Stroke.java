@@ -51,19 +51,36 @@ public class Stroke implements java.io.Serializable {
 	
 	@Transient
 	public Point getRepresentantPointOfStroke(){
-		Point res = new Point();
+
+		fillStrokeBoundingBox();
 		
+		Point res = new Point();
+		res.setX(this.ltPoint.getX() + (Math.abs(this.ltPoint.getX() + this.rbPoint.getX())/2));
+		res.setY(this.rbPoint.getY() + (Math.abs(this.ltPoint.getY() + this.rbPoint.getY())/2));
+		
+		return res;
+	}
+	
+	@Transient
+	public double getStrokeDiagonalSize(){
+		double res = 0;
+		
+		fillStrokeBoundingBox();
+		
+		res = Math.pow(Math.pow(this.ltPoint.getX() - this.rbPoint.getX(), 2) +
+					   Math.pow(this.ltPoint.getY() - this.rbPoint.getY(), 2), 0.5);
+		
+		return res;
+	}
+
+
+	private void fillStrokeBoundingBox() {
 		if (null == ltPoint || null == rbPoint){
 			
 			for (int i = 0; i < this.points.size(); i++) {
 				this.addCheckingBoundingBox(this.points.remove(0));
 			}
 		}
-		
-		res.setX(this.ltPoint.getX() + (Math.abs(this.ltPoint.getX() + this.rbPoint.getX())/2));
-		res.setY(this.rbPoint.getY() + (Math.abs(this.ltPoint.getY() + this.rbPoint.getY())/2));
-		
-		return res;
 	}
 
 	public Stroke(Symbol symbol) {
