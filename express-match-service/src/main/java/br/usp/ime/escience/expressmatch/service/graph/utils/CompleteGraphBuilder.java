@@ -1,4 +1,4 @@
-package br.usp.ime.escience.expressmatch.service.graph.mst.general;
+package br.usp.ime.escience.expressmatch.service.graph.utils;
 
 import java.util.ArrayList;
 
