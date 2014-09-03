@@ -13,6 +13,7 @@ public class Vertex {
 
 	Point2D p;
 	private int id; // indice no grafo
+	private int strokeId; // indice do stroke, pode ser nulo
 	private double[] shapeContextExpression; // cada vertices tem um vetor de 60 medidas (shape context)
 	private double[][] shapeContextSymbol;
 	private double vertexSize;
@@ -31,6 +32,12 @@ public class Vertex {
 
 	public Vertex(int id, double x, double y) {
 		this(new Point2D.Double(x, y));
+		this.id = id;
+	}
+	
+	public Vertex(int id, int strokeId, double x, double y) {
+		this(new Point2D.Double(x, y));
+		this.strokeId = strokeId;
 		this.id = id;
 	}
 
@@ -115,6 +122,36 @@ public class Vertex {
 
 	public void setVertexSize(double vertexSize) {
 		this.vertexSize = vertexSize;
+	}
+
+	public int getStrokeId() {
+		return strokeId;
+	}
+
+	public void setStrokeId(int strokeId) {
+		this.strokeId = strokeId;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + strokeId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vertex other = (Vertex) obj;
+		if (strokeId != other.strokeId)
+			return false;
+		return true;
 	}
 
 }

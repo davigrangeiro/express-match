@@ -10,6 +10,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import br.usp.ime.escience.expressmatch.model.UserParameter;
+import br.usp.ime.escience.expressmatch.service.graph.cost.ShapeContext;
+
 /**
  *
  * @author Willian Honda
@@ -26,6 +29,12 @@ public class Graph {
 
     public Vertex addVertex(int id, float x, float y) {
         Vertex v = new Vertex(id, x, y);
+        this.addVertex(v);
+        return v;
+    }
+    
+    public Vertex addVertex(int id, int strokeId, float x, float y) {
+        Vertex v = new Vertex(id,strokeId, x, y);
         this.addVertex(v);
         return v;
     }
@@ -56,21 +65,20 @@ public class Graph {
         return refv;
     }
 
-/*    public void updateShapeContextExpression(){
-        double[][] sc = this.calculateShapeContextExpression();
+    public void updateShapeContextExpression(UserParameter parameter){
+        double[][] sc = this.calculateShapeContextExpression(parameter);
         Vertex[] vertex = this.getIndexedVertexes();
         for (int i = 0; i < vertex.length; i++) {
             vertex[i].setShapeContextExpression(sc[i]);
         }
     }
 
-    private double[][] calculateShapeContextExpression() {
+    private double[][] calculateShapeContextExpression(UserParameter parameters) {
         float diagonal = (float)Math.sqrt(Math.pow(this.getHeight(), 2)
                     + Math.pow(this.getWidth(), 2));
-        ShapeContext sc = new ShapeContext(diagonal, this, MatchingParameters.LogPolarGlobalRegions,
-                MatchingParameters.angularGlobalRegions);
+        ShapeContext sc = new ShapeContext(diagonal, this, parameters.getPolarGlobalRegions(), parameters.getAngularGlobalRegions());
         return sc.getSC();
-    }*/
+    }
 
     public double getWidth() {
         double minX = 0, maxX = 0;

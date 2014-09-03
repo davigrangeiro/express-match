@@ -49,4 +49,22 @@ public class StatisticsUtil {
 		return new MeanAndStandardDeviationResponse(mean, standardDeviation, accumulatedSquaredVariation, severalSamples.size());
 	}
 	
+	
+	public static float getDistanceOfMean(float x, float mean, float standardDeviation) {
+		float z = (x-mean)/standardDeviation;
+		return z;
+		
+		//		double res = 1.0;
+//		res /= (Math.sqrt(2.0 * Math.PI) * standardDeviation);
+//		res *=  Math.pow(Math.E, (- Math.pow((x-mean),2) / (2 * Math.pow(standardDeviation, 2))));
+//		return res;
+	}
+	
+
+//	public static void main(String[] args) {
+//		System.out.println(StatisticsUtil.getDistanceOfMean(58, 50, 8));
+//		System.out.println(StatisticsUtil.getDistanceOfMean(0.52568552, 0.51524587, 0.12));
+//		System.out.println(StatisticsUtil.getDistanceOfMean(0.99, 0.51, 0.20));
+//	}
+	
 }

@@ -15,11 +15,12 @@ public class GraphUtils {
 	public static Graph createGraphByTranscription(List<Symbol> symbolList){
 		Graph responseGraph = new Graph();
 		
+		int i=0;
 		for (Symbol symbol : symbolList) {
 			for (Stroke stroke : symbol.getStrokes()) {
 			
 				Point representant = stroke.getRepresentantPointOfStroke();
-				responseGraph.addVertex(stroke.getStrokeId(), representant.getX(), representant.getY());
+				responseGraph.addVertex(i++, stroke.getStrokeId(), representant.getX(), representant.getY());
 				
 			}
 		}

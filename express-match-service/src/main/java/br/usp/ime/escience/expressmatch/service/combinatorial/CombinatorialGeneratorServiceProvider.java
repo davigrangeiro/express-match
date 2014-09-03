@@ -2,10 +2,14 @@ package br.usp.ime.escience.expressmatch.service.combinatorial;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Service;
 
+import br.usp.ime.escience.expressmatch.model.Stroke;
+import br.usp.ime.escience.expressmatch.model.Symbol;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierRequest;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierResponse;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierService;
@@ -18,8 +22,6 @@ import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifi
 @Service
 public class CombinatorialGeneratorServiceProvider{
 	
-	/** The response. */
-	List<SymbolClassifierResponse> response;
 	
 	/**
 	 * Gets the permutations result.
@@ -29,15 +31,18 @@ public class CombinatorialGeneratorServiceProvider{
 	 * @param symbolClassifier the symbol classifier
 	 * @return the permutations result
 	 */
-	public List<SymbolClassifierResponse> getPermutationsResult(int[] values, int permutationSize, SymbolClassifierService symbolClassifier){
+	public List<SymbolClassifierResponse> getPermutationsResult(int[] values, int permutationSize, 
+																SymbolClassifierService symbolClassifier, 
+																Map<Integer, Stroke> strokeMap,
+																Set<Symbol> modelSymbols,
+																Stroke root){
 		
-		//cleanning response before returning the list of responses
-		this.response = new ArrayList<>();
+		List<SymbolClassifierResponse> response = new ArrayList<>();
 
 		int[] permutationArray = new int[permutationSize];
-		generatePermutations(permutationArray, 0, 0, values, symbolClassifier);
+		generatePermutations(permutationArray, 0, 0, values, symbolClassifier, strokeMap, modelSymbols, response, root);
 		
-		return this.response;
+		return response;
 	}
 	
 	
@@ -50,23 +55,59 @@ public class CombinatorialGeneratorServiceProvider{
 	 * @param values the values
 	 * @param symbolClassifier the symbol classifier
 	 */
-	private void generatePermutations(int[] permutation, int i, int j, int[] values, SymbolClassifierService symbolClassifier){
+	private void generatePermutations(int[] permutation, int i, int j, int[] values, 
+									  SymbolClassifierService symbolClassifier, 
+									  Map<Integer, Stroke> strokeMap,
+									  Set<Symbol> modelSymbols,
+									  List<SymbolClassifierResponse> response,
+									  Stroke root){
+		
 		if (i < permutation.length) {
 			
 			for (int k = j ; k < values.length; k++) {
 				permutation[i] = values[k];
-				generatePermutations(permutation, i+1, k+1, values, symbolClassifier);
+				generatePermutations(permutation, i+1, k+1, values, symbolClassifier, strokeMap, modelSymbols, response, root);
 			}
 			
 		} else {
 			//Permutation found.
 			
-			SymbolClassifierRequest request = new SymbolClassifierRequest();
-			SymbolClassifierResponse res = symbolClassifier.matchTranscription(request);
-			res.setPermutation(ArrayUtils.clone(permutation));
-			
-			this.response.add(res);
+			if (strokeBelongToPermutation(permutation, root)) {
+				
+				//getting the list of strokes found by the permutation.
+				List<Stroke> strokesForPermutation = new ArrayList<Stroke>();
+				for (int strokeIndex : permutation) {
+					strokesForPermutation.add(strokeMap.get(strokeIndex));
+				}
+				
+				for (Symbol modelSymbol : modelSymbols) {
+					
+					//setting the attributes and send it to classifier.
+					SymbolClassifierRequest<List<Stroke>> request = new SymbolClassifierRequest<>();
+					request.setsTranscription(strokesForPermutation);
+					request.setsModel(modelSymbol);
+					
+					SymbolClassifierResponse res = symbolClassifier.matchTranscription(request);
+					//keep the permutation that was used to constitute the transcription hypothesis
+					res.setPermutation(ArrayUtils.clone(permutation));
+					
+					//adding the answer to response
+					response.add(res);
+				}
+			}
 		}
+	}
+
+
+	private boolean strokeBelongToPermutation(int[] permutation, Stroke root) {
+		//testing if the root stroke belong to permutation found.
+		boolean rootStrokeBelongToPermutation = false;
+		for (int strokeIndex = 0; strokeIndex < permutation.length && !rootStrokeBelongToPermutation ; strokeIndex++) {
+			if (root.getStrokeId().intValue() == permutation[strokeIndex]) {
+				rootStrokeBelongToPermutation = true;
+			}
+		}
+		return rootStrokeBelongToPermutation;
 	}
 	
 	

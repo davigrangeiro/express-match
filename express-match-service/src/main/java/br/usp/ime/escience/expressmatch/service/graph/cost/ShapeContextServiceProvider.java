@@ -72,7 +72,7 @@ public class ShapeContextServiceProvider {
 			for (Stroke stroke : symbol.getStrokes()) {
 				Point strokeRepresentantPoint = stroke.getRepresentantPointOfStroke();
 				
-				g.addVertex(i, strokeRepresentantPoint.getX(), strokeRepresentantPoint.getY());
+				g.addVertex(i, stroke.getStrokeId(), strokeRepresentantPoint.getX(), strokeRepresentantPoint.getY());
 				i = i+1;
 			}
 		}

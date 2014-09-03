@@ -29,7 +29,14 @@ public class ShapeContext {
     public double[][] getSC() {
         return sc;
     }
-
+    
+    public ShapeContext(float raioSC, Graph graph, int tot_r, int tot_t) {
+        this.tot_r = tot_r;
+        this.tot_t = tot_t;
+        this.totSC = tot_r * tot_t;
+        this.init(raioSC, graph, false);
+    }
+    
     public ShapeContext(float raioSC, Graph graph, int tot_r, int tot_t, boolean rotation) {
         this.tot_r = tot_r;
         this.tot_t = tot_t;

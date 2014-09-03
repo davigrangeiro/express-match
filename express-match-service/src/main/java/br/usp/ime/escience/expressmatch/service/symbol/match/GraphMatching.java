@@ -9,6 +9,10 @@ public abstract class GraphMatching {
 
     protected Graph input;
     protected Graph model;
+    
+    protected Vertex[] modelVertex;
+    protected Vertex[] inputVertex;
+    
     protected ShapeContextCost cost;
 
     public GraphMatching() {
@@ -18,6 +22,7 @@ public abstract class GraphMatching {
     public GraphMatching(Graph model, Graph input) {
         this.model = model;
         this.input = input;
+        
     }
 
     public abstract int[][] getMatch();
@@ -28,8 +33,8 @@ public abstract class GraphMatching {
             tamanho = this.input.getVertexSize();
         }
         float[][] costMatrix = new float[tamanho][tamanho];
-        Vertex[] modelVertex = model.getIndexedVertexes();
-        Vertex[] inputVertex = input.getIndexedVertexes();
+        modelVertex = model.getIndexedVertexes();
+        inputVertex = input.getIndexedVertexes();
         for (int i = 0; i < tamanho; i++) {
             for (int j = 0; j < tamanho; j++) {
                 if (i < modelVertex.length && j < inputVertex.length) {
