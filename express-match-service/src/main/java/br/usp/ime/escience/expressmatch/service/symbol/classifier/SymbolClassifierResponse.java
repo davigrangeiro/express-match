@@ -1,8 +1,11 @@
 package br.usp.ime.escience.expressmatch.service.symbol.classifier;
 
+import br.usp.ime.escience.expressmatch.model.Symbol;
+
 public class SymbolClassifierResponse {
 
 	private float cost;
+	private Symbol usedSymbol;
 	private int[] permutation;
 
 	public float getCost() {
@@ -19,6 +22,14 @@ public class SymbolClassifierResponse {
 
 	public void setPermutation(int[] permutation) {
 		this.permutation = permutation;
+	}
+
+	public Symbol getUsedSymbol() {
+		return usedSymbol;
+	}
+
+	public void setUsedSymbol(Symbol usedSymbol) {
+		this.usedSymbol = usedSymbol;
 	}
 	
 }

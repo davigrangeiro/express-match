@@ -79,7 +79,7 @@ public class PrimMST implements MinimumSpanningTree {
 		nodeList = new Node[in.getVertexSize()];
 		
 		for (Vertex v : in.getIndexedVertexes()) {
-			nodeList[i] = new Node(v.getId(), v.getX(), v.getY(), i);
+			nodeList[i] = new Node(i, v.getX(), v.getY(), v.getStrokeId());
 			nodeList[i].setValue(Double.MAX_VALUE);
 			nodeList[i].setVisited(Boolean.FALSE);
 			i++;

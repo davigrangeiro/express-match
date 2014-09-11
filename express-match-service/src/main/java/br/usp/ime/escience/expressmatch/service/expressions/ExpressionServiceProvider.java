@@ -23,6 +23,7 @@ import br.usp.ime.escience.expressmatch.model.repository.SymbolRepository;
 import br.usp.ime.escience.expressmatch.model.repository.UserInfoRepository;
 import br.usp.ime.escience.expressmatch.model.status.ExpressionStatusEnum;
 import br.usp.ime.escience.expressmatch.model.status.SymbolStatusEnum;
+import br.usp.ime.escience.expressmatch.service.match.evaluate.ExpressionMatchServiceProvider;
 
 @Service
 @Transactional
@@ -32,7 +33,7 @@ public class ExpressionServiceProvider {
 
 	private static final String NOT_EVALUATED_YET = "Not evaluated yet";
 
-	private static final Logger logger = LoggerFactory.getLogger(ExpressionServiceProvider.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExpressionServiceProvider.class);
 	
 	@Autowired
 	private ExpressionRepository expressionRepository;
@@ -46,14 +47,17 @@ public class ExpressionServiceProvider {
 	@Autowired
 	private UserInfoRepository userInfoRepository;
 	
+	@Autowired 
+	private ExpressionMatchServiceProvider expressionMatchServiceProvider;
+	
 	public void saveExpressions(List<Expression> expressions){
-		logger.info("Saving expressions.");
+		LOGGER.info("Saving expressions.");
 		this.expressionRepository.save(expressions);
-		logger.info(MessageFormat.format("Saved {0} expressions.", expressions.size()));
+		LOGGER.info(MessageFormat.format("Saved {0} expressions.", expressions.size()));
 	}
 	
 	public List<ExpressionType> generateExpressionTypesByExpression(List<Expression> expressions){
-		logger.info("Generating expression Types");
+		LOGGER.info("Generating expression Types");
 		List<ExpressionType> types = new ArrayList<ExpressionType>(); 
 		for (Expression expression : expressions) {
 			ExpressionType type = expression.getExpressionType();
@@ -62,22 +66,22 @@ public class ExpressionServiceProvider {
 			types.add(type);
 		}
 		this.expressionTypeRepository.save(types);
-		logger.info(MessageFormat.format("Flushing expression Types, Inserted {0} records.", types.size()));
+		LOGGER.info(MessageFormat.format("Flushing expression Types, Inserted {0} records.", types.size()));
 		this.expressionRepository.flush();
 		return types;
 	}
 	
 	public void saveExpressionTypes(List<ExpressionType> expressions){
-		logger.info("Saving expression types.");
+		LOGGER.info("Saving expression types.");
 		this.expressionTypeRepository.save(expressions);
-		logger.info(MessageFormat.format("Saved {0} expression types.", expressions.size()));
+		LOGGER.info(MessageFormat.format("Saved {0} expression types.", expressions.size()));
 	}
 	
 	public List<ExpressionType> loadExpressionTypes(){
 		List<ExpressionType> res = null;
-		logger.info("Retrieving expression types.");
+		LOGGER.info("Retrieving expression types.");
 		res = this.expressionTypeRepository.findAll();
-		logger.info(MessageFormat.format("Retrieved {0} expression types.", res.size()));
+		LOGGER.info(MessageFormat.format("Retrieved {0} expression types.", res.size()));
 		return res;
 	}
 	
@@ -170,10 +174,12 @@ public class ExpressionServiceProvider {
 			
 			this.expressionRepository.save(e);
 			
-			logger.info(MessageFormat.format("Saved expression with id {0}", e.getId()));
+			this.expressionMatchServiceProvider.matchExpression(e);
+			
+			LOGGER.info(MessageFormat.format("Saved expression with id {0}", e.getId()));
 			
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			LOGGER.error(e.getMessage(), e);
 			throw new ExpressMatchException(MessageFormat.format("There was an error while saving the transcription of expression type {0}.", expressionType.getId()));
 		}
 	}

@@ -21,6 +21,7 @@ import br.usp.ime.escience.expressmatch.model.Symbol;
 import br.usp.ime.escience.expressmatch.model.User;
 import br.usp.ime.escience.expressmatch.service.expressions.ExpressionServiceProvider;
 import br.usp.ime.escience.expressmatch.service.json.StrokeJSONParser;
+import br.usp.ime.escience.expressmatch.service.match.evaluate.ExpressionMatchServiceProvider;
 import br.usp.ime.escience.expressmatch.utils.FacesUtils;
 
 @Component

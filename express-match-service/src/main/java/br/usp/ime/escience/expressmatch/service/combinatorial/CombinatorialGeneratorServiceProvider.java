@@ -90,6 +90,7 @@ public class CombinatorialGeneratorServiceProvider{
 					SymbolClassifierResponse res = symbolClassifier.matchTranscription(request);
 					//keep the permutation that was used to constitute the transcription hypothesis
 					res.setPermutation(ArrayUtils.clone(permutation));
+					res.setUsedSymbol(modelSymbol);
 					
 					//adding the answer to response
 					response.add(res);
