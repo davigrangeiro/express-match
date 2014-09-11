@@ -1,6 +1,7 @@
 package br.usp.ime.escience.expressmatch.service.graph.utils;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import br.usp.ime.escience.expressmatch.model.UserParameter;
 import br.usp.ime.escience.expressmatch.model.graph.Edge;
@@ -38,11 +39,11 @@ public class CompleteGraphBuilder {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static ArrayList<Edge>[] getCompleteGraphEdges(Node[] nodes, Cost<Vertex, Double> cost) { 
-		ArrayList<Edge>[] neighbours = new ArrayList[nodes.length];
+	public static LinkedList<Edge>[] getCompleteGraphEdges(Node[] nodes, Cost<Vertex, Double> cost) { 
+		LinkedList<Edge>[] neighbours = new LinkedList[nodes.length];
 		
 		for (int i = 0; i < neighbours.length; i++) {
-			neighbours[i] = new ArrayList<>();
+			neighbours[i] = new LinkedList<>();
 		}
 		
 		for (int j = 0; j < nodes.length - 1; j++) {

@@ -49,6 +49,11 @@ public class Graph {
         this.edges.addLast(e);
         return e;
     }
+    
+    public Edge addEdge(Edge e) { 
+        this.edges.addLast(e);
+        return e;
+    }
 
     public void replaceVertex(Vertex from, Vertex to) {
         this.vertices.remove(from);
@@ -144,6 +149,12 @@ public class Graph {
         Point2D min = this.getMinPositions();
         return new Point2D.Double(min.getX() + (width / 2), min.getY() + (height / 2));
     }
+    
+    public double getExpressionPartSize() {
+        double width = this.getWidth();
+        double height = this.getHeight();
+        return (width + height) / (0.0 + vertices.size());
+    }
 
     @SuppressWarnings("unchecked")
 	public List<Edge>[] getNeighboursList() {
@@ -177,4 +188,8 @@ public class Graph {
     public int getEdgeSize() {
         return this.edges.size();
     }
+
+	public void setEdges(LinkedList<Edge> edges) {
+		this.edges = edges;
+	}
 }

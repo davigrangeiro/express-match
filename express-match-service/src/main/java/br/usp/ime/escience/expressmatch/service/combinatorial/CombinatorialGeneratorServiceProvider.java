@@ -2,7 +2,7 @@ package br.usp.ime.escience.expressmatch.service.combinatorial;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Map; 
 import java.util.Set;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -30,6 +30,7 @@ public class CombinatorialGeneratorServiceProvider{
 	 * @param permutationSize the permutation size
 	 * @param symbolClassifier the symbol classifier
 	 * @return the permutations result
+	 *
 	 */
 	public List<SymbolClassifierResponse> getPermutationsResult(int[] values, int permutationSize, 
 																SymbolClassifierService symbolClassifier, 
@@ -90,6 +91,7 @@ public class CombinatorialGeneratorServiceProvider{
 					SymbolClassifierResponse res = symbolClassifier.matchTranscription(request);
 					//keep the permutation that was used to constitute the transcription hypothesis
 					res.setPermutation(ArrayUtils.clone(permutation));
+					res.setUsedSymbol(modelSymbol);
 					
 					//adding the answer to response
 					response.add(res);

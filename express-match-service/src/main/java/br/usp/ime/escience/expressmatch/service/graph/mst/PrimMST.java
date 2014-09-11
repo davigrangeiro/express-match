@@ -1,9 +1,9 @@
 package br.usp.ime.escience.expressmatch.service.graph.mst;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
-
+ 
 import br.usp.ime.escience.expressmatch.model.graph.Edge;
 import br.usp.ime.escience.expressmatch.model.graph.Graph;
 import br.usp.ime.escience.expressmatch.model.graph.Node;
@@ -16,10 +16,11 @@ import br.usp.ime.escience.expressmatch.service.graph.utils.CompleteGraphBuilder
 
 public class PrimMST implements MinimumSpanningTree {
 
+	
     Node [] nodeList;
 
     //It should be an edge list of the graph (two-way edges !!!)
-    ArrayList<Edge>[] neighbours;
+    LinkedList<Edge>[] neighbours;
 
 	@Override
 	public Node[] getMST(Graph in) {
@@ -66,7 +67,7 @@ public class PrimMST implements MinimumSpanningTree {
 			Node nodeI = nodeList[i];
 			
 			if (null != nodeI.getPrevious()) {
-				nodeList[nodeI.getPrevious().getNodeId()].getNext().add(nodeI);
+				nodeList[nodeI.getPrevious().getId()].getNext().add(nodeI);
 			}
 			
 		}
@@ -79,13 +80,19 @@ public class PrimMST implements MinimumSpanningTree {
 		nodeList = new Node[in.getVertexSize()];
 		
 		for (Vertex v : in.getIndexedVertexes()) {
-			nodeList[i] = new Node(v.getId(), v.getX(), v.getY(), i);
+			nodeList[i] = new Node(i, v.getX(), v.getY(), v.getStrokeId());
 			nodeList[i].setValue(Double.MAX_VALUE);
 			nodeList[i].setVisited(Boolean.FALSE);
 			i++;
 		}
 		
 		neighbours = CompleteGraphBuilder.getCompleteGraphEdges(nodeList, cost);
+		
+//		for (LinkedList<Edge> linkedList : neighbours) {
+//			for (Edge edge : linkedList) {
+//				in.addEdge(edge);
+//			}
+//		}
 	}
 	
 	public static void main(String[] args) {

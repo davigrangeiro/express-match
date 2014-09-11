@@ -21,6 +21,7 @@ import br.usp.ime.escience.expressmatch.model.Symbol;
 import br.usp.ime.escience.expressmatch.model.User;
 import br.usp.ime.escience.expressmatch.service.expressions.ExpressionServiceProvider;
 import br.usp.ime.escience.expressmatch.service.json.StrokeJSONParser;
+import br.usp.ime.escience.expressmatch.service.match.evaluate.ExpressionMatchServiceProvider;
 import br.usp.ime.escience.expressmatch.utils.FacesUtils;
 
 @Component
@@ -69,6 +70,9 @@ public class EvaluateExpressionsPanelController implements Serializable{
 			parseJsonString(jsonString);
 			
 			if (null != this.strokes && this.strokes.length > 0) {
+				for (Stroke stroke : strokes) {
+					stroke.setStrokeId(stroke.getId());
+				} 
 				this.expressionServiceProvider.saveTranscription(this.strokes, this.types.get(this.eTypeIndex), this.userController.getUser(), this.userExpression);
 				FacesUtils.addMessage("Success", "Your transcription was successfully saved", null);
 			} else {

@@ -16,6 +16,8 @@ public class Node extends Vertex {
 		super(id, x, y);
 		next = new ArrayList<>();
 		previous = null;
+		visited = false;
+		accepted = false;
 	}
 
 	public Node(int id, double x, double y, int nodeId) {
@@ -23,6 +25,8 @@ public class Node extends Vertex {
 		this.nodeId = nodeId;
 		next = new ArrayList<>();
 		previous = null;
+		visited = false;
+		accepted = false;
 	}
 
 

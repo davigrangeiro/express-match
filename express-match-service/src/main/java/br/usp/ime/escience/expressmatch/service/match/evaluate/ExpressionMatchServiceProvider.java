@@ -1,26 +1,31 @@
 package br.usp.ime.escience.expressmatch.service.match.evaluate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.xml.StaxUtils;
 
 import br.usp.ime.escience.expressmatch.exception.ExpressMatchException;
 import br.usp.ime.escience.expressmatch.model.Expression;
 import br.usp.ime.escience.expressmatch.model.Stroke;
 import br.usp.ime.escience.expressmatch.model.Symbol;
+import br.usp.ime.escience.expressmatch.model.SymbolClass;
 import br.usp.ime.escience.expressmatch.model.UserParameter;
 import br.usp.ime.escience.expressmatch.model.graph.Edge;
 import br.usp.ime.escience.expressmatch.model.graph.Graph;
 import br.usp.ime.escience.expressmatch.model.graph.Node;
+import br.usp.ime.escience.expressmatch.model.repository.SymbolClassRepository;
+import br.usp.ime.escience.expressmatch.model.repository.UserParameterRepository;
+import br.usp.ime.escience.expressmatch.model.status.SymbolStatusEnum;
 import br.usp.ime.escience.expressmatch.service.combinatorial.CombinatorialGeneratorServiceProvider;
 import br.usp.ime.escience.expressmatch.service.expressions.evaluate.PartialExpressionMatch;
 import br.usp.ime.escience.expressmatch.service.graph.mst.PrimMST;
@@ -40,12 +45,20 @@ import br.usp.ime.escience.expressmatch.utils.statistics.StatisticsUtil;
 @Transactional
 public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 
+	public static final float RECOGNITION_THRESHOLD = 0.35f;
+
 	@Autowired
 	private CombinatorialGeneratorServiceProvider combinatorialGeneratorService;
 	
 	@Autowired
+	private SymbolClassRepository symbolClassRepository;
+	
+	@Autowired
 	@Qualifier("shapeContexSymbolClassifierServiceProvider")
 	private SymbolClassifierService symbolClassifierService;
+	
+	@Autowired
+	private UserParameterRepository userParameterRepository;
 	
 	private final double STROKE_SCALE = 1.5;
 	private final int    STROKE_SET_MAX_SIZE = 5;
@@ -55,7 +68,7 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 			throws ExpressMatchException {
 
 		MinimumSpanningTree mst = new PrimMST();
-		UserParameter userParameter = null;
+		UserParameter userParameter = userParameterRepository.getUserParameterByRoot(true);
 		
 		Graph inputGraph = GraphUtils.createGraphByTranscription(transcription.getSymbols());
 		Graph modelGraph = GraphUtils.createGraphByTranscription(transcription.getExpressionType().getExpression().getSymbols());
@@ -63,7 +76,12 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 		modelGraph.updateShapeContextExpression(userParameter);
 		
 		Node[] nodeList = mst.getMST(inputGraph);
-		
+		Map<Integer, Node> nodeMap = new HashMap<Integer, Node>();
+		for (Node node : nodeList) {
+			node.setVisited(Boolean.FALSE);
+			nodeMap.put(node.getNodeId(), node);
+		}
+		 
 		Map<Integer, Stroke> strokeMap = this.getStrokeMappedById(transcription);
 		
 		//Getting the most probable symbols that will be used to comparison with the stroke set permutations
@@ -77,24 +95,35 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 			}
 		}
 		
-		walkAmongTheTree(GraphUtils.getTreeRoot(nodeList), transcription, transcription.getExpressionType().getExpression(), inputGraph, modelGraph, strokeMap, moreProbableSymbolsMap);
+		List<Symbol> recognizedSymbols = new ArrayList<Symbol>();
+		walkAmongTheTree(GraphUtils.getTreeRoot(nodeList), nodeMap, transcription, transcription.getExpressionType().getExpression(), inputGraph, modelGraph, strokeMap, recognizedSymbols, moreProbableSymbolsMap);
 		
 		return transcription;
 	}
 	
 	
-	private void walkAmongTheTree(Node root, Expression transcription, Expression model, Graph inputGraph, Graph modelGraph, Map<Integer, Stroke> strokeMap, Map<Integer, Set<Symbol>> moreProbableSymbolsMap){
+	private void walkAmongTheTree(Node root, Map<Integer, Node> nodeMap, Expression transcription, Expression model, 
+								  Graph inputGraph, Graph modelGraph, Map<Integer, Stroke> strokeMap, 
+								  List<Symbol> recognizedSymbols, Map<Integer, Set<Symbol>> moreProbableSymbolsMap){
 		
 		if (!root.isAccepted()) {
 			
-			Stroke currentStrokeNode = strokeMap.get(root.getId());
-			double strokeScaledBoundingBoxSize = currentStrokeNode.getStrokeDiagonalSize() * STROKE_SCALE;
+			Stroke currentStrokeNode = strokeMap.get(root.getNodeId());
+//			double strokeScaledBoundingBoxSize = currentStrokeNode.getStrokeDiagonalSize() * STROKE_SCALE;
+			double strokeScaledBoundingBoxSize = inputGraph.getExpressionPartSize() * STROKE_SCALE;
 			Set<Integer> distanceFilteredStrokes = new HashSet<>();
 			distanceFilteredStrokes.add(currentStrokeNode.getStrokeId());
 			
 			for (Edge edge : inputGraph.getEdges()) {
 				//testing if the currentNode (root) is source of the edge and if the cost of the edge is lower than the strokeScaledBoundingBoxSize (diagonal)
-				if (root.getId() == edge.getFrom().getId() && edge.getCost() <= strokeScaledBoundingBoxSize) {
+				// and the 'to' node has not accepted yet.
+				Node from = (Node) edge.getFrom(),
+					 to   = (Node) edge.getTo();
+				
+				if ( root.getNodeId() == from.getNodeId() && 
+					 edge.getCost() <= strokeScaledBoundingBoxSize &&
+					!nodeMap.get(to.getNodeId()).isAccepted()) {
+					
 					distanceFilteredStrokes.add(edge.getTo().getId());
 				}
 			}
@@ -106,20 +135,51 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 			}
 			
 
-			SymbolClassifierResponse min      = null,
-									 selected = null;
-			
+			SymbolClassifierResponse min = null;
+			float minValue = Float.MAX_VALUE;
 			//Find correspondences for the root tree node and mark them with the model expression correspondence.
 			for (int i = STROKE_SET_MAX_SIZE; i >= 1; i--) {
-				List<SymbolClassifierResponse> responses = combinatorialGeneratorService.getPermutationsResult(valuesForPermutation, i, symbolClassifierService, strokeMap, moreProbableSymbolsMap.get(root.getStrokeId()), currentStrokeNode);
+				List<SymbolClassifierResponse> responses = combinatorialGeneratorService.getPermutationsResult(valuesForPermutation, i, symbolClassifierService, strokeMap, moreProbableSymbolsMap.get(root.getNodeId()), currentStrokeNode);
 				
 				
 				for (SymbolClassifierResponse instance : responses) {
-					float diference = StatisticsUtil.getDistanceOfMean(instance.getCost(), 0.f, 0.f);
+					SymbolClass symbolClass = symbolClassRepository.findByLabel(instance.getUsedSymbol().getLabel());
+					float diference = StatisticsUtil.getDistanceOfMean(instance.getCost(), symbolClass.getMean().floatValue(), symbolClass.getSd().floatValue());
+					
+					if (minValue > diference) {
+						minValue = diference;
+						min = instance;
+					}
 				}
 				
+				if (minValue <= ExpressionMatchServiceProvider.RECOGNITION_THRESHOLD) {
+					break;
+				}
 			}
 			
+			
+			
+			Symbol newSymbol = new Symbol(transcription);
+			newSymbol.setHref(min.getUsedSymbol().getHref());
+			newSymbol.setLabel(min.getUsedSymbol().getLabel());
+			newSymbol.setSymbolStatus(SymbolStatusEnum.SYMBOL_EVALUATED.getValue());
+			newSymbol.setStrokes(new ArrayList<Stroke>());
+			
+			for (int id : min.getPermutation()) {
+				Stroke stroke = strokeMap.get(id);
+				
+				stroke.setSymbol(newSymbol);
+				newSymbol.getStrokes().add(stroke);
+				
+				for (Entry<Integer, Node> node : nodeMap.entrySet()) {
+					if(node.getValue().getNodeId() == id) {
+						node.getValue().setAccepted(Boolean.TRUE);
+						break;
+					}
+				}
+			}
+			
+			recognizedSymbols.add(newSymbol);
 		}
 		
 		
@@ -129,7 +189,7 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 			root.setVisited(Boolean.TRUE);
 			for (Node currentNode: root.getNext()) {
 				if(!currentNode.isVisited()){
-					walkAmongTheTree(currentNode, transcription, model, inputGraph, modelGraph, strokeMap, moreProbableSymbolsMap);
+					walkAmongTheTree(currentNode, nodeMap, transcription, model, inputGraph, modelGraph, strokeMap, recognizedSymbols, moreProbableSymbolsMap);
 				}
 			}
 		}

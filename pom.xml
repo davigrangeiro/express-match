@@ -23,6 +23,7 @@
 		<spring.security.version>3.1.0.RELEASE</spring.security.version>
 		<spring.batch.version>2.2.6.RELEASE</spring.batch.version>
 		
+		<hibernate.version>4.3.4.Final</hibernate.version>
 		<mysql.version>5.1.18</mysql.version>
 		<sfl4j.version>1.5.8</sfl4j.version>
 	</properties>
@@ -112,12 +113,17 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.3.4.Final</version>
+			<version>${hibernate.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.3.4.Final</version>
+			<version>${hibernate.version}</version>
+		</dependency>
+		 <dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>${hibernate.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>

@@ -24,7 +24,6 @@ public class Vertex {
 	}
 
 	private double value;
-	private boolean visited;
 	
 	public Vertex(Point2D p) {
 		this.p = p;
@@ -100,13 +99,6 @@ public class Vertex {
 		this.shapeContextSymbol = shapeContextSymbol;
 	}
 
-	public boolean isVisited() {
-		return visited;
-	}
-
-	public void setVisited(boolean visited) {
-		this.visited = visited;
-	}
 
 	public double getValue() {
 		return value;

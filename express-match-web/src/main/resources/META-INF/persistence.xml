@@ -23,6 +23,13 @@
 		
 		<class>br.usp.ime.escience.expressmatch.model.ExpressionMatch</class>
 		<class>br.usp.ime.escience.expressmatch.model.SymbolMatch</class>
+<!-- 
+		<properties>
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider" />
+			<property name="hibernate.cache.use_second_level_cache" value="true" />
+			<property name="hibernate.cache.use_query_cache" value="true" />
+			<property name="hibernate.generate_statistics" value="true" />
+		</properties> -->
     
     </persistence-unit>
     

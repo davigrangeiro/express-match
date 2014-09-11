@@ -39,10 +39,10 @@ public class PartialGraphMatching extends GraphMatching {
 			this.costMatrix = this.getCostMatrix();
 		
 			for (int i = 0; i < inputVertex.length; i++) {
-				inputMap.put(inputVertex[1].getStrokeId(), i);
+				inputMap.put(inputVertex[i].getStrokeId(), i);
 			}
 			for (int i = 0; i < modelVertex.length; i++) {
-				modelMap.put(modelVertex[1].getStrokeId(), i);
+				modelMap.put(modelVertex[i].getStrokeId(), i);
 			}
 		}
 	}
@@ -69,7 +69,10 @@ public class PartialGraphMatching extends GraphMatching {
 		
 		List<Vertex> res = new ArrayList<Vertex>();
 		for (int i = 0; i < listSize && i < points.size(); i++) {
-			res.add(modelVertex[modelMap.get(points.get(i).getX())]);
+			Integer index = modelMap.get((int)points.get(i).getX());
+			if (null != index) {
+				res.add(modelVertex[index]);
+			}
 		}
 		
 		return res;
