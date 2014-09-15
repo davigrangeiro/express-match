@@ -109,14 +109,17 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 		if (!root.isAccepted()) {
 			
 			Stroke currentStrokeNode = strokeMap.get(root.getNodeId());
+
 //			double strokeScaledBoundingBoxSize = currentStrokeNode.getStrokeDiagonalSize() * STROKE_SCALE;
 			double strokeScaledBoundingBoxSize = inputGraph.getExpressionPartSize() * STROKE_SCALE;
+
 			Set<Integer> distanceFilteredStrokes = new HashSet<>();
 			distanceFilteredStrokes.add(currentStrokeNode.getStrokeId());
 			
 			for (Edge edge : inputGraph.getEdges()) {
 				//testing if the currentNode (root) is source of the edge and if the cost of the edge is lower than the strokeScaledBoundingBoxSize (diagonal)
 				// and the 'to' node has not accepted yet.
+
 				Node from = (Node) edge.getFrom(),
 					 to   = (Node) edge.getTo();
 				
@@ -143,9 +146,10 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 				
 				
 				for (SymbolClassifierResponse instance : responses) {
+
 					SymbolClass symbolClass = symbolClassRepository.findByLabel(instance.getUsedSymbol().getLabel());
 					float diference = StatisticsUtil.getDistanceOfMean(instance.getCost(), symbolClass.getMean().floatValue(), symbolClass.getSd().floatValue());
-					
+
 					if (minValue > diference) {
 						minValue = diference;
 						min = instance;
@@ -156,7 +160,6 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 					break;
 				}
 			}
-			
 			
 			
 			Symbol newSymbol = new Symbol(transcription);
@@ -189,7 +192,9 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 			root.setVisited(Boolean.TRUE);
 			for (Node currentNode: root.getNext()) {
 				if(!currentNode.isVisited()){
+
 					walkAmongTheTree(currentNode, nodeMap, transcription, model, inputGraph, modelGraph, strokeMap, recognizedSymbols, moreProbableSymbolsMap);
+
 				}
 			}
 		}

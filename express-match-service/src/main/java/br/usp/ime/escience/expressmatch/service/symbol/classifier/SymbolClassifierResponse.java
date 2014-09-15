@@ -4,7 +4,7 @@ import br.usp.ime.escience.expressmatch.model.Symbol;
 
 public class SymbolClassifierResponse {
 
-	private float cost; 
+	private float cost;
 	private Symbol usedSymbol;
 	private int[] permutation;
 	
