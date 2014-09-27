@@ -36,8 +36,11 @@ public class Symbol implements java.io.Serializable {
 	private Set<ShapeDescriptor> shapeDescriptors = new HashSet<>(0);
 	private List<Stroke> strokes = new ArrayList<>(0);
 	
+	private float currentCost;
 	private Point ltPoint;
 	private Point rbPoint;
+	
+	private boolean usedInRecognition;
 
 	public Symbol() {
 	}
@@ -276,6 +279,24 @@ public class Symbol implements java.io.Serializable {
 	 */
 	public void setRbPoint(Point rbPoint) {
 		this.rbPoint = rbPoint;
+	}
+
+	@Transient
+	public boolean isUsedInRecognition() {
+		return usedInRecognition;
+	}
+
+	public void setUsedInRecognition(boolean usedInRecognition) {
+		this.usedInRecognition = usedInRecognition;
+	}
+
+	@Transient
+	public float getCurrentCost() {
+		return currentCost;
+	}
+
+	public void setCurrentCost(float currentCost) {
+		this.currentCost = currentCost;
 	}
 
 	

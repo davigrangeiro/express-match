@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.usp.ime.escience.expressmatch.service.expressions.importable.InkmlImportServiceProvider;
+import br.usp.ime.escience.expressmatch.service.expressions.result.ExpressionMatchResultExtractor;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierService;
 
 @Component
@@ -28,6 +29,9 @@ public class ConfigController implements Serializable{
 	@Autowired
 	private SymbolClassifierService symbolClassifier;
 	
+	@Autowired
+	private ExpressionMatchResultExtractor extractor;
+	
 	public String importDataBase(){
 		logger.debug("Starting dataset import");
 		importServiceProvider.importDataSet();
@@ -36,6 +40,12 @@ public class ConfigController implements Serializable{
 	
 	public String testShapeSymbol(){
 		
+		return "";
+	}
+	
+	
+	public String extractExpressionResults(){
+		extractor.extractExpressionDatabaseResults();
 		return "";
 	}
 

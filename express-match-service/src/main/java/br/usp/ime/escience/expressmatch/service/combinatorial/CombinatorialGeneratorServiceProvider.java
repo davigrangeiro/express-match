@@ -63,7 +63,7 @@ public class CombinatorialGeneratorServiceProvider{
 									  List<SymbolClassifierResponse> response,
 									  Stroke root){
 		
-		if (i < permutation.length) {
+		if (i < permutation.length && i < values.length) {
 			
 			for (int k = j ; k < values.length; k++) {
 				permutation[i] = values[k];

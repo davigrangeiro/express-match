@@ -47,35 +47,9 @@ public class PartialGraphMatching extends GraphMatching {
 		}
 	}
 	
-	protected List<Vertex> getMoreProbableModelVertexForInputVertex(Integer inputVertexId, int listSize) {
+	protected float[] getMoreProbableModelVertexForInputVertex(Integer inputVertexId) {
 		float[] line = this.costMatrix[this.inputMap.get(inputVertexId)];
-		
-		List<Point> points = new ArrayList<Point>();
-		
-		for (int i = 0; i < line.length; i++) {
-			points.add(new Point(i, line[i]));
-		}
-		
-		Collections.sort(points, 
-				new Comparator<Point>() {
-
-					@Override
-					public int compare(Point arg0, Point arg1) {
-						return (new Float(arg0.getY()).compareTo(arg1.getY()));
-					}
-				
-				}
-		);
-		
-		List<Vertex> res = new ArrayList<Vertex>();
-		for (int i = 0; i < listSize && i < points.size(); i++) {
-			Integer index = modelMap.get((int)points.get(i).getX());
-			if (null != index) {
-				res.add(modelVertex[index]);
-			}
-		}
-		
-		return res;
+		return line;
 	}
 	
 	

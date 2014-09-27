@@ -31,7 +31,7 @@ public class Expression implements java.io.Serializable {
 	private ExpressionType expressionType;
 	private String label;
 	private Set<ShapeDescriptor> shapeDescriptors = new HashSet<>(0);
-	private List<Symbol> symbols = new ArrayList<>(0);
+	private Set<Symbol> symbols = new HashSet<>(0);
 	private Integer expressionStatus;
 	
 	private Integer expressionTransientId;
@@ -43,7 +43,7 @@ public class Expression implements java.io.Serializable {
 	}
 
 	public Expression(UserInfo userInfo, ExpressionType expressionType,
-			String label, List<Symbol> symbols, List<ExpressionType> expressionTypes) {
+			String label, Set<Symbol> symbols, List<ExpressionType> expressionTypes) {
 		this.userInfo = userInfo;
 		this.expressionType = expressionType;
 		this.label = label;
@@ -115,11 +115,11 @@ public class Expression implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "expression", cascade={CascadeType.PERSIST, CascadeType.MERGE})
-	public List<Symbol> getSymbols() {
+	public Set<Symbol> getSymbols() {
 		return this.symbols;
 	}
 
-	public void setSymbols(List<Symbol> symbols) {
+	public void setSymbols(Set<Symbol> symbols) {
 		this.symbols = symbols;
 	}
 

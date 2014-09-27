@@ -2,8 +2,8 @@ package br.usp.ime.escience.expressmatch.service.expressions;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import br.usp.ime.escience.expressmatch.exception.ExpressMatchException;
 import br.usp.ime.escience.expressmatch.model.Expression;
@@ -146,7 +145,7 @@ public class ExpressionServiceProvider {
 			e.setLabel(NOT_EVALUATED_YET);
 			e.setExpressionStatus(ExpressionStatusEnum.EXPRESSION_TRANSCRIBED.getValue());
 			e.setUserInfo(this.userInfoRepository.getUserInfoByUserNick(currentUser.getNick()));
-			e.setSymbols(new ArrayList<Symbol>());
+			e.setSymbols(new HashSet<Symbol>());
 			
 			Symbol s = new Symbol();
 			s.setHref(NOT_EVALUATED_YET);

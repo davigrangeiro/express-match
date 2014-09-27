@@ -199,30 +199,18 @@
 
 
 		<!-- PrimeFaces 4 -->
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>4.0</version>
-		</dependency>
+		<dependency>  
+		    <groupId>org.primefaces</groupId>  
+		    <artifactId>primefaces</artifactId>  
+		    <version>5.0</version>  
+		</dependency> 
 		<dependency>
 			<groupId>org.primefaces.extensions</groupId>
 			<artifactId>primefaces-extensions</artifactId>
-			<version>1.2.0</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>gson</artifactId>
-					<groupId>com.google.code.gson</groupId>
-				</exclusion>
-			</exclusions>
+			<version>2.1.0</version>
 		</dependency>
 
 		<!-- Gson: Java to Json conversion -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.2.4</version>
-			<scope>compile</scope>
-		</dependency>
 
 		<!-- Log -->
 		<dependency>

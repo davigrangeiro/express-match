@@ -146,4 +146,9 @@ public class Vertex {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Vertex [p=" + p + ", id=" + id + ", strokeId=" + strokeId + "]";
+	}
+
 }

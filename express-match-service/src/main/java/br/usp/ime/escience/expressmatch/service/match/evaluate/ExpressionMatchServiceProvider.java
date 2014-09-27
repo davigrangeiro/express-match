@@ -1,5 +1,6 @@
 package br.usp.ime.escience.expressmatch.service.match.evaluate;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +10,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,6 @@ import br.usp.ime.escience.expressmatch.exception.ExpressMatchException;
 import br.usp.ime.escience.expressmatch.model.Expression;
 import br.usp.ime.escience.expressmatch.model.Stroke;
 import br.usp.ime.escience.expressmatch.model.Symbol;
-import br.usp.ime.escience.expressmatch.model.SymbolClass;
 import br.usp.ime.escience.expressmatch.model.UserParameter;
 import br.usp.ime.escience.expressmatch.model.graph.Edge;
 import br.usp.ime.escience.expressmatch.model.graph.Graph;
@@ -34,7 +36,7 @@ import br.usp.ime.escience.expressmatch.service.graph.utils.GraphUtils;
 import br.usp.ime.escience.expressmatch.service.match.ExpressionMatchService;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierResponse;
 import br.usp.ime.escience.expressmatch.service.symbol.classifier.SymbolClassifierService;
-import br.usp.ime.escience.expressmatch.utils.statistics.StatisticsUtil;
+import br.usp.ime.escience.expressmatch.utils.ArrayUtils;
 
 
 /**
@@ -45,8 +47,12 @@ import br.usp.ime.escience.expressmatch.utils.statistics.StatisticsUtil;
 @Transactional
 public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 
-	public static final float RECOGNITION_THRESHOLD = 0.35f;
+	private static final double ALPHA = 0.85;
 
+	public static final float[] RECOGNITION_THRESHOLD = {0.15f, 0.32f, 0.34f, 0.30f, 0.28f};
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExpressionMatchServiceProvider.class);
+	
 	@Autowired
 	private CombinatorialGeneratorServiceProvider combinatorialGeneratorService;
 	
@@ -64,7 +70,7 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 	private final int    STROKE_SET_MAX_SIZE = 5;
 	
 	@Override
-	public Expression matchExpression(Expression transcription)
+	public List<Symbol> matchExpression(Expression transcription)
 			throws ExpressMatchException {
 
 		MinimumSpanningTree mst = new PrimMST();
@@ -72,6 +78,9 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 		
 		Graph inputGraph = GraphUtils.createGraphByTranscription(transcription.getSymbols());
 		Graph modelGraph = GraphUtils.createGraphByTranscription(transcription.getExpressionType().getExpression().getSymbols());
+
+		modelGraph = GraphUtils.scaleModelGraphByTranscription(modelGraph, inputGraph);
+		
 		inputGraph.updateShapeContextExpression(userParameter);
 		modelGraph.updateShapeContextExpression(userParameter);
 		
@@ -98,7 +107,7 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 		List<Symbol> recognizedSymbols = new ArrayList<Symbol>();
 		walkAmongTheTree(GraphUtils.getTreeRoot(nodeList), nodeMap, transcription, transcription.getExpressionType().getExpression(), inputGraph, modelGraph, strokeMap, recognizedSymbols, moreProbableSymbolsMap);
 		
-		return transcription;
+		return recognizedSymbols;
 	}
 	
 	
@@ -127,7 +136,7 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 					 edge.getCost() <= strokeScaledBoundingBoxSize &&
 					!nodeMap.get(to.getNodeId()).isAccepted()) {
 					
-					distanceFilteredStrokes.add(edge.getTo().getId());
+					distanceFilteredStrokes.add(to.getNodeId());
 				}
 			}
 			
@@ -139,28 +148,46 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 			
 
 			SymbolClassifierResponse min = null;
-			float minValue = Float.MAX_VALUE;
+			double minValue = Double.MAX_VALUE;
 			//Find correspondences for the root tree node and mark them with the model expression correspondence.
 			for (int i = STROKE_SET_MAX_SIZE; i >= 1; i--) {
-				List<SymbolClassifierResponse> responses = combinatorialGeneratorService.getPermutationsResult(valuesForPermutation, i, symbolClassifierService, strokeMap, moreProbableSymbolsMap.get(root.getNodeId()), currentStrokeNode);
 				
-				
-				for (SymbolClassifierResponse instance : responses) {
-
-					SymbolClass symbolClass = symbolClassRepository.findByLabel(instance.getUsedSymbol().getLabel());
-					float diference = StatisticsUtil.getDistanceOfMean(instance.getCost(), symbolClass.getMean().floatValue(), symbolClass.getSd().floatValue());
-
-					if (minValue > diference) {
-						minValue = diference;
-						min = instance;
+				if(i <= valuesForPermutation.length) {
+					
+					List<SymbolClassifierResponse> responses = combinatorialGeneratorService.getPermutationsResult(valuesForPermutation, i, symbolClassifierService, strokeMap, moreProbableSymbolsMap.get(root.getNodeId()), currentStrokeNode);
+					
+					
+					for (SymbolClassifierResponse instance : responses) {
+						
+						if (!instance.getUsedSymbol().isUsedInRecognition()) {
+						
+//							SymbolClass symbolClass = symbolClassRepository.findByLabel(instance.getUsedSymbol().getLabel());
+//							float diference = StatisticsUtil.getDistanceOfMean(instance.getCost(), symbolClass.getMean().floatValue(), symbolClass.getSd().floatValue());
+							double diference = instance.getCost() * ExpressionMatchServiceProvider.ALPHA + (1-ExpressionMatchServiceProvider.ALPHA) * instance.getUsedSymbol().getCurrentCost();
+							//get absolute value of diference
+//							diference = Math.abs(diference);
+							
+							if (minValue > diference) {
+								minValue = diference;
+								min = instance;
+								
+							}
+							LOGGER.info(MessageFormat.format("Permutation: {0}, symbol: {1}, symbol cost: {2}, expression cost: {3}, total cost: {4}",
+											ArrayUtils.printPermutation(instance.getPermutation()),
+											instance.getUsedSymbol().getHref(),
+											instance.getCost(),
+											instance.getUsedSymbol().getCurrentCost(),
+											diference));
+						}
 					}
-				}
-				
-				if (minValue <= ExpressionMatchServiceProvider.RECOGNITION_THRESHOLD) {
-					break;
+					
+					if (minValue <= ExpressionMatchServiceProvider.RECOGNITION_THRESHOLD[min.getPermutation().length]) {
+						break;
+					}
 				}
 			}
 			
+			min.getUsedSymbol().setUsedInRecognition(Boolean.TRUE);
 			
 			Symbol newSymbol = new Symbol(transcription);
 			newSymbol.setHref(min.getUsedSymbol().getHref());
@@ -168,10 +195,15 @@ public class ExpressionMatchServiceProvider implements ExpressionMatchService{
 			newSymbol.setSymbolStatus(SymbolStatusEnum.SYMBOL_EVALUATED.getValue());
 			newSymbol.setStrokes(new ArrayList<Stroke>());
 			
+			LOGGER.info(MessageFormat.format("Symbol: {0}, permutation: {1}, cost: {2}",
+							min.getUsedSymbol().getHref(),
+							ArrayUtils.printPermutation(min.getPermutation()),
+							minValue));
+			
 			for (int id : min.getPermutation()) {
 				Stroke stroke = strokeMap.get(id);
 				
-				stroke.setSymbol(newSymbol);
+//				stroke.setSymbol(newSymbol);
 				newSymbol.getStrokes().add(stroke);
 				
 				for (Entry<Integer, Node> node : nodeMap.entrySet()) {

@@ -49,7 +49,7 @@ public class UserServiceProvider {
 			logger.warn("There is no logged user.");
 		} else {
 		
-			logger.info(MessageFormat.format("Found logged user ({0})", name));
+//			logger.info(MessageFormat.format("Found logged user ({0})", name));
 			res = this.userInfoRepository.getUserInfoByUserNick(name.toLowerCase());
 			
 			if(null == res){

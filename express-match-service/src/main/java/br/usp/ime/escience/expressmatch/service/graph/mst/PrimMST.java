@@ -88,11 +88,11 @@ public class PrimMST implements MinimumSpanningTree {
 		
 		neighbours = CompleteGraphBuilder.getCompleteGraphEdges(nodeList, cost);
 		
-//		for (LinkedList<Edge> linkedList : neighbours) {
-//			for (Edge edge : linkedList) {
-//				in.addEdge(edge);
-//			}
-//		}
+		for (LinkedList<Edge> linkedList : neighbours) {
+			for (Edge edge : linkedList) {
+				in.addEdge(edge);
+			}
+		}
 	}
 	
 	public static void main(String[] args) {

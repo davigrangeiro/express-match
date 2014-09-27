@@ -11,4 +11,13 @@ public class ArrayUtils {
 		return res;
 	}
 	
+	
+	public static String printPermutation(int[] i) {
+		StringBuilder s = new StringBuilder();
+		for (int aux : i) {
+			s.append(aux + " ");
+		}
+		return s.toString();
+	}
+
 }
